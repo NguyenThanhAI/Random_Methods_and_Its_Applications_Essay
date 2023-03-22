@@ -1,0 +1,343 @@
+\documentclass[14pt, a4paper]{article}
+\usepackage{minitoc}
+\usepackage[left=3.00cm, right=2.5cm, top=2.00cm, bottom=2.00cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{thmtools}
+\usepackage{mathtools}
+\usepackage{graphicx}
+%\usepackage{algpseudocode}
+%\usepackage{algorithm}
+\usepackage[ruled,vlined,linesnumbered,algosection]{algorithm2e}
+\usepackage{blindtext}
+\usepackage{setspace}
+\usepackage[utf8]{inputenc}
+\usepackage[utf8]{vietnam}
+\usepackage[center]{caption}
+\usepackage[shortlabels]{enumitem}
+\usepackage{fancyhdr} % header, footer
+\usepackage{hyperref} % loại bỏ border với mục lục và công thức
+\usepackage[nonumberlist, nopostdot, nogroupskip]{glossaries}
+\usepackage{glossary-superragged}
+\usepackage{tikz,tkz-tab}
+\setglossarystyle{superraggedheaderborder}
+\pagestyle{fancy}
+%\usepackage[style=numeric,sortcites]{biblatex}
+%\addbibresource{ref.bib}
+%\usepackage[numbers]{natbib}
+\usepackage{indentfirst}
+\usepackage{multirow}
+\usepackage[natbib,backend=biber,style=ieee, sorting=ynt]{biblatex}
+\usepackage{cancel}
+\bibliography{ref.bib}
+
+\graphicspath{{./figures/}}
+
+
+\hypersetup{
+    colorlinks=false,
+    pdfborder={0 0 0},
+}
+
+
+\fancyhf{}
+\rhead{\textbf{Môn học: Các phương pháp ngẫu nhiên và ứng dụng}}
+\lhead{\textbf{GVHD: PGS. TS. Tạ Công Sơn}}
+\rfoot{\thepage}
+\lfoot{\textbf{Học viên thực hiện: Nguyễn Chí Thanh - 21007925}}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+
+\numberwithin{equation}{section}
+\numberwithin{figure}{section}
+
+\setlength{\parindent}{0.5cm}
+
+\setcounter{secnumdepth}{3} % Cho phép subsubsection trong report
+\setcounter{tocdepth}{3} % Chèn subsubsection vào bảng mục lục
+
+\newtheorem{dl}{Định lý}
+\newtheoremstyle{sltheorem}
+{}                % Space above
+{}                % Space below
+{\normalfont}        % Theorem body font % (default is "\upshape")
+{}                % Indent amount
+{\bfseries}       % Theorem head font % (default is \mdseries)
+{.}               % Punctuation after theorem head % default: no punctuation
+{ }               % Space after theorem head
+{}                % Theorem head spec
+\theoremstyle{sltheorem}
+\newtheorem{vd}{Ví dụ}
+\newtheoremstyle{soltheorem}
+{}                % Space above
+{}                % Space below
+{\normalfont}        % Theorem body font % (default is "\upshape")
+{}                % Indent amount
+{\bfseries}       % Theorem head font % (default is \mdseries)
+{.}               % Punctuation after theorem head % default: no punctuation
+{\newline}               % Space after theorem head
+{}                % Theorem head spec
+\theoremstyle{soltheorem}
+\newtheorem*{loigiai}{Lời giải}
+
+\numberwithin{dl}{section}
+\numberwithin{vd}{section}
+
+\doublespacing
+
+\begin{document}
+    \begin{titlepage}
+
+        \newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for the horizontal lines, change thickness here
+
+        \center % Center everything on the page
+
+        %----------------------------------------------------------------------------------------
+        %	HEADING SECTIONS
+        %----------------------------------------------------------------------------------------
+        \textsc{\LARGE Đại học Quốc Gia Hà Nội}\\[0.5cm]
+        \textsc{\LARGE Trường đại học Khoa học tự nhiên}\\[0.5cm] % Name of your university/college
+        \textsc{\LARGE Khoa Toán - Cơ - Tin học}\\[0.5cm]
+
+        \includegraphics[scale=0.2]{HUS-logo.jpg}\\[0.5cm]
+
+        \textsc{\Large Chuyên ngành: Khoa học dữ liệu}\\[0.5cm] % Major heading such as course name
+
+
+        %----------------------------------------------------------------------------------------
+        %	TITLE SECTION
+        %----------------------------------------------------------------------------------------
+
+        \HRule \\[0.4cm]
+        { \huge \bfseries TIỂU LUẬN MÔN HỌC}\\[0.4cm] % Title of your document
+        \HRule \\[1.5cm]
+
+        \textsc{\Large Môn học: Các phương pháp ngẫu nhiên và ứng dụng}\\[1cm] % Minor heading such as course title
+
+
+        \textsc{\Large Đề tài: Xích Markov và Lý thuyết phân nhánh}\\[2cm]
+
+
+        %----------------------------------------------------------------------------------------
+        %	AUTHOR SECTION
+        %----------------------------------------------------------------------------------------
+        \begin{minipage}{0.4\textwidth}
+            \begin{flushleft} \large
+            \emph{Giảng viên hướng dẫn:} \\
+            PGS. TS. Tạ Công Sơn % Supervisor's Name
+            \end{flushleft}
+        \end{minipage}\\[0.5cm]
+
+        \begin{minipage}{0.4\textwidth}
+        \begin{flushleft} \large
+        \emph{Học viên thực hiện:}\\
+        Nguyễn Chí Thanh \\
+        MSHV: 21007925 \\ % Your name
+        Lớp: Khoa học dữ liệu - K4
+        \end{flushleft}
+        \end{minipage}
+
+
+        % If you don't want a supervisor, uncomment the two lines below and remove the section above
+        %\Large \emph{Author:}\\
+        %John \textsc{Smith}\\[3cm] % Your name
+
+        %----------------------------------------------------------------------------------------
+        %	DATE SECTION
+        %----------------------------------------------------------------------------------------
+
+        % I don't want day because it is English
+        % {\large \today}\\[2cm] % Date, change the \today to a set date if you want to be precise
+
+        %----------------------------------------------------------------------------------------
+        %	LOGO SECTION
+        %----------------------------------------------------------------------------------------
+
+        %\includegraphics{logo/rsz_3logo-khtn.png}\\[1cm] % Include a department/university logo - this will require the graphicx package
+
+        %----------------------------------------------------------------------------------------
+
+        \vfill % Fill the rest of the page with whitespace
+
+    \end{titlepage}
+
+    \cleardoublepage
+    \pagenumbering{gobble}
+    \tableofcontents
+    \newpage
+    \listoffigures
+    \newpage
+    \glsaddall 
+    \renewcommand*{\glossaryname}{Danh mục các từ viết tắt}
+    \renewcommand*{\acronymname}{Danh sách từ viết tắt}
+    \renewcommand*{\entryname}{Viết tắt}
+    \renewcommand*{\descriptionname}{Viết đầy đủ}
+    \printnoidxglossary
+    \cleardoublepage
+    \pagenumbering{arabic}
+
+    %\maketitle
+
+    \newpage
+
+    \nocite{*}
+
+    \begin{center}
+    \section*{LỜI MỞ ĐẦU}
+    \end{center}
+    \addcontentsline{toc}{section}{{\bf LỜI MỞ ĐẦU}\rm}
+
+    \newpage
+
+    \section{Số bước trung bình chuyển tiếp giữa các trạng thái tạm thời}
+
+    Ta xét một xích Markov trạng thái hữu hạn và giả định rằng các trạng thái được đánh số $T=\lbrace 1, 2, \dots, t \rbrace$ ký hiệu tập các trạng thái tạm thời.
+    Ta đặt:
+
+    \begin{equation*}
+        \mathbf{P}_T = \begin{bmatrix} P_{11} & P_{12} & \dots & P_{1t} \\ \vdots & \vdots & \vdots & \vdots \\ P_{t1} & P_{t2} & \dots & P_{tt}  \end{bmatrix}
+    \end{equation*}
+
+    Và ta cần chú ý rằng ma trận $\mathbf{P}_T$ chỉ xác định xác suất chuyển tiếp từ các trạng thái tạm thời sang trạng thái tạm thời, và tổng của một số hàng nhỏ hơn 1 (mặt khác $T$ có thể là một tập đóng của các trạng thái).
+    
+    Ta xét hai trạng thái tạm thời $i$ và $j$, ta đặt $s_{ij}$ ký hiệu là số bước kỳ vọng mà xích Markov đến trạng thái $j$, khi ta biết xích Markov bắt đầu ở trạng thái $i$.
+    Đặt $\delta_{i,j}=1$ khi $i=j$ và bằng 0 nếu ngược lại.
+    Ta tính $s_{ij}$ sử dụng công thức kỳ vọng đầy đủ:
+
+    \begin{equation} \label{eq:expected_number_periods_i_to_j}
+        \begin{aligned}
+            s_{ij} &= \delta_{i,j} + \sum_{k \in T} P_{ik}s_{kj} \\
+            &= \delta_{i,j} + \sum_{k=1}^t P_{ik} s_{kj}
+        \end{aligned}
+    \end{equation}
+
+    với đẳng thức cuối cùng của công thức trên cho ta thấy không thể chuyển từ một trạng thái hồi quy sang một trạng thái tạm thời, ý nghĩa rằng $s_{kj}=0$ khi $k$ là một trạng thái hồi quy.
+
+    Ta đặt $\mathbf{S}$ ký hiệu là ma trận với các giá trị $s_{ij}, i, j = 1, \dots, t$. Ta có ma trận $\mathbf{S}$:
+
+    \begin{equation*}
+        \mathbf{S} = \begin{bmatrix} s_{11} & s_{12} & \dots & s_{1t} \\ \vdots & \vdots & \vdots & \vdots \\ s_{t1} & s_{t2} & \dots & s_{tt}  \end{bmatrix}
+    \end{equation*}
+
+    Ta viết lại công thức \ref{eq:expected_number_periods_i_to_j} dưới dạng ma trận:
+
+    \begin{equation*}
+        \mathbf{S} = \mathbf{I} + \mathbf{P}_T \mathbf{S}
+    \end{equation*}
+
+    với $\mathbf{I}$ là ma trận đơn vị kích thước $t$. Bởi vì công thức trên tương đương với:
+
+    \begin{equation*}
+        (\mathbf{I} - \mathbf{P}_T) \mathbf{S} = \mathbf{I}
+    \end{equation*}
+
+    Bằng cách nhân cả hai vế với $(\mathbf{I} - \mathbb{P}_T)^{-1}$ ta thu được:
+
+    \begin{equation*}
+        \mathbf{S} = (\mathbf{I} - \mathbf{P}_T)^{-1}
+    \end{equation*}
+
+    Với mỗi đại lượng $s_{ij}, i \in T, j \in T$, ta có thể tính đại lượng này bằng cách lấy phần tử tại hàng $i$ và cột $j$ của ma trận nghịch đảo của ma trận $\mathbf{I} - \mathbf{P}_T$ (sự tồn tại của ma trận nghịch đảo này dễ dàng chứn minh được).
+
+    \begin{vd} \label{vd:gambler-ruin-problem}
+        Ta xét bài toán người đánh bạc với $p=0.4$ và $N=7$. Bắt đầu với 3 đô la, xác định:
+        \begin{enumerate}[label=(\alph*)]
+            \item Số ván kỳ vọng để người chơi bài có 5 đô la.
+            \item Số ván kỳ vọng để người chơi bài có 2 đô la.
+        \end{enumerate}
+    \end{vd}
+
+    \begin{loigiai}
+        Ma trận $\mathbf{P}_T$ xác định các giá trị $P_{ij}, i, j \in \lbrace 1, 2, 3, 4, 5, 6 \rbrace$ được xác định như sau:
+
+        \begin{equation*}
+            \mathbf{P}_T = \begin{bmatrix}
+                0 & 0.4 & 0 & 0 & 0 & 0 \\
+                0.6 & 0 & 0.4 & 0 & 0 & 0 \\
+                0 & 0.6 & 0 & 0.4 & 0 & 0 \\
+                0 & 0 & 0.6 & 0 & 0.4 & 0 \\
+                0 & 0 & 0 & 0.6 & 0 & 0.4 \\
+                0 & 0 & 0 & 0 & 0.6 & 0 \\
+            \end{bmatrix}
+        \end{equation*}
+
+        Ta tính nghịch đảo ma trận $\mathbf{I} - \mathbf{P}_T$, ta thu được:
+
+        \begin{equation*}
+            \mathbf{S}=(\mathbf{I}-\mathbf{P}_T)^{-1}=
+            \begin{bmatrix}
+            1.6149 & 1.0248 & 0.6314 & 0.3691 & 0.1943 & 0.0777 \\
+            1.5372 & 2.5619 & 1.5784 & 0.9228 & 0.4857 & 0.1943 \\
+            1.4206 & 2.3677 & 2.9990 & 1.7533 & 0.9228 & 0.3691 \\
+            1.2458 & 2.0763 & 2.6299 & 2.9990 & 1.5784 & 0.6314 \\
+            0.9835 & 1.6391 & 2.0763 & 2.3677 & 2.5619 & 1.0248 \\
+            0.5901 & 0.9835 & 1.2458 & 1.4206 & 1.5372 & 1.6149
+            \end{bmatrix}
+        \end{equation*}
+
+        Vì vậy ta thu được $s_{3,5}=0.9228$ (ván) và $s_{3,2}=2.3677$ (ván).
+    \end{loigiai}
+
+    Với $i \in T, j \in T$, đại lượng $f_{ij}$ chính là xác suất để để xích Markov tạo ra một quỹ đạo chuyển tiếp đạt đến trạng thái $j$ khi biết xích Markov bắt đầu từ trạng thái $i$ dễ dàng được xác định từ $\mathbf{P}_T$.
+    Để xác định mối liên hệ, ta bắt đầu từ biệc sử dụng công thức tính $s_{ij}$ dựa trên hệ đầy đủ là xích Markov đã từng đi qua trạng thái $j$ hay chưa.
+    Sử dụng công thức kỳ vọng đầy đủ ta thu được:
+
+    \begin{equation*}
+        \begin{aligned}
+            s_{ij} &= E \lbrack \text{ số bước để đến được } j \vert \text{ bắt đầu tại } i, \text{ đã từng đi qua } j \rbrack f_{ij} \\ & + E \lbrack \text{ số bước để đến được } j \vert \text{ bắt đầu tại } i, \text{ chưa từng đi qua } j \rbrack (1 - f_{ij}) \\
+            &= (\delta_{i, j} + s_{{jj}}) f_{ij} + \delta_{ij}(1 - f_{ij}) \\
+            &= \delta_{i,j} + f_{ij} s_{jj}
+        \end{aligned}
+    \end{equation*}
+
+    với $s_{jj}$ là số bước kỳ vọng cần thêm vào khi trạng thái $j$ đã đạt và tiếp tục một lần nữa quay lại trạng thái $j$.
+    Giải phương trình trên ta thu được:
+
+    \begin{equation*}
+        f_{ij} = \dfrac{s_{ij} - \delta_{i,j}}{s_{jj}}
+    \end{equation*}
+
+    \begin{vd}
+        Trong ví dụ \ref{vd:gambler-ruin-problem}, xác suất là bao nhiêu để người chơi có lúc có 1 đô la?
+    \end{vd}
+
+    \begin{loigiai}
+        Với $s_{31}=1.4206$ và $s_{11}=1.6149$, ta thu được:
+        
+        \begin{equation*}
+            f_{31} = \dfrac{s_{31}}{s_{11}}=0.8797
+        \end{equation*}
+
+        Để kiểm tra lại, ta chú ý rằng $f_{31}$ chính là xác suất người đánh bạc bắt đầu với 3 đô la và có 1 đô la trước khi đạt được 7 đô la.
+        Đây chính là xác suất để người đánh bạc mất 2 đô la trước khi có thêm 4 đô la cũng bằng xác suất người đánh bạc bắt đầu với 2 đô la và thu cuộc trước khi đạt được 6 đô la.
+        Vì vậy:
+
+        \begin{equation*}
+            f_{31} = - \dfrac{1 - (0.6/0.4)^2}{1-(0.6/0.4)^6}=0.8797
+        \end{equation*}
+        và kết quả trùng khớp với cách làm đầu tiên.
+
+        Giả sử ta đang quan tâm đến số bước kỳ vọng để xích Markov đi đến một tập các trạng thái $A$, không nhất thiết phải là các trạng thái lặp lại.
+        Ta có thể giả định về tình huống trước bằng cách làm cho tất cả các trạng thái trong $A$ là trạng thái hấp thụ bằng cách đặt lại xác suất chuyển tiếp của các trạng thái trong tập $A$ thỏa mãn:
+
+        \begin{equation*}
+            P_{ii} = 1, i \in A
+        \end{equation*}
+
+        Việc này biến các trạng thái trong tập $A$ thành trạng thái hồi quy, và biến đổi bất kỳ trạng thái nào ngoài tập $A$ nhưng cuối cùng cũng chuyển tiếp vào một trạng thái trong tập $A$ thành một trạng thái tạm thái.
+        Vì vậy, cách tiếp cận trước đây của ta có thể được sử dụng
+
+        \section{Các quá trình phân nhánh}
+
+        Trong phần này ta sẽ xem xét một lớp các xích Markov được gọi là các \textit{quá trình phân nhánh}.
+        Lớp xích Markov này có ứng dụng rất rộng rãi trong y học, xã hội học và khoa học kỹ thuật.
+
+        Ta xét một quần thể bao gồm các cá thể có thể tạo ra các thế hệ tiếp theo cùng loài.
+        Ta giả định rằng từng cá thể đến cuối thời gian sống tạo ra $j$ con với xác suất $P_j, j \geq 0$ và độc lập với số con được sinh ra bởi cá thể khác.
+        Ta giả sử $P_j < 1 \forall j \geq 0$.
+        Số cá thể ban đầu được ký hiệu là $X_0$, được gọi là kích cỡ của thế hệ thứ 0.
+        
+    \end{loigiai}
+\end{document}
