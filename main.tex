@@ -318,26 +318,197 @@
             f_{31} = - \dfrac{1 - (0.6/0.4)^2}{1-(0.6/0.4)^6}=0.8797
         \end{equation*}
         và kết quả trùng khớp với cách làm đầu tiên.
+    \end{loigiai}
 
-        Giả sử ta đang quan tâm đến số bước kỳ vọng để xích Markov đi đến một tập các trạng thái $A$, không nhất thiết phải là các trạng thái lặp lại.
-        Ta có thể giả định về tình huống trước bằng cách làm cho tất cả các trạng thái trong $A$ là trạng thái hấp thụ bằng cách đặt lại xác suất chuyển tiếp của các trạng thái trong tập $A$ thỏa mãn:
+    Giả sử ta đang quan tâm đến số bước kỳ vọng để xích Markov đi đến một tập các trạng thái $A$, không nhất thiết phải là các trạng thái lặp lại.
+    Ta có thể giả định về tình huống trước bằng cách làm cho tất cả các trạng thái trong $A$ là trạng thái hấp thụ bằng cách đặt lại xác suất chuyển tiếp của các trạng thái trong tập $A$ thỏa mãn:
+    \begin{equation*}
+        P_{ii} = 1, i \in A
+    \end{equation*}
 
+    Việc này biến các trạng thái trong tập $A$ thành trạng thái hồi quy, và biến đổi bất kỳ trạng thái nào ngoài tập $A$ nhưng cuối cùng cũng chuyển tiếp vào một trạng thái trong tập $A$ thành một trạng thái tạm thái.
+    Vì vậy, cách tiếp cận trước đây của ta có thể được sử dụng
+    
+    \section{Các quá trình phân nhánh}
+    
+    Trong phần này ta sẽ xem xét một lớp các xích Markov được gọi là các \textit{quá trình phân nhánh}.
+    Lớp xích Markov này có ứng dụng rất rộng rãi trong y học, xã hội học và khoa học kỹ thuật.
+    
+    Ta xét một quần thể bao gồm các cá thể có thể tạo ra các thế hệ tiếp theo cùng loài.
+    Ta giả định rằng từng cá thể đến cuối thời gian sống tạo ra $j$ con với xác suất $P_j, j \geq 0$ và độc lập với số con được sinh ra bởi cá thể khác.
+    Ta giả sử $P_j < 1 \forall j \geq 0$.
+    Số cá thể ban đầu được ký hiệu là $X_0$, được gọi là kích cỡ của thế hệ thứ 0.
+    Tất cả con cháu của thế hệ thứ 0 tạo thành thế hệ đầu tiên và kích thước của quần thể tại thế hệ này ký hiệu là $X_1$.
+    Tổng quát, ta đặt $X_n$ ký hiệu là kích cỡ của thế hệ thứ $n$.
+    Vì vậy $\lbrace X_n \rbrace_{n=0,1,\dots}$ là một xích Markov có không gian trạng thái là tập hợp các số nguyên không âm.
+    
+    Ta cần chú ý rằng trạng thái 0 là một trạng hồi quy, vì rõ ràng $P_{00}=1$.
+    Ngoài ra nếu $P_0 > 0$, tất cả các trạng thái khác là trạng thái tạm thời.
+    Điều này xảy ra khi $P_{i0}=P_0^i$ có ý nghĩa quần thể ban đầu có $i$ cá thể và có xác suất ít nhất $P_0^i$ sẽ không còn thế hệ nào nữa mà quần thể bao gồm $i$ cá thể.
+    Hơn nữa, vì bất kỳ tập hữu hạn các trạng thái tạm thời $\lbrace 1, 2, \dots, n \rbrace$ sẽ được xích Markov đi qua một số hữu hạn lần, dẫn đến một kết luận quan trọng là nếu $P_0 > 0$, số lượng quần thể sẽ về 0 hoặc tiến đến vô cùng.
+    
+    Ta đặt:
+    \begin{equation*}
+        \mu = \sum_{j=0}^{\infty} j P_j
+    \end{equation*}
+    
+    ký hiệu số các con trung bình do một cá thể sinh ra và đặt:
+    \begin{equation*}
+        \sigma^2 = \sum_{j=0}^{\infty} (j - \mu)^2 P_j
+    \end{equation*}
+    là phương sai của số các con được tạo ra bởi một cá thể.
+    
+    Ta giả định rằng $X_0 = 1$, ban đầu chỉ có duy nhất 1 cá thể.
+    Ta tính $E \lbrack X_n \rbrack$ và $\mathrm{Var} (X_n)$, ta có thể viết:
+    \begin{equation*}
+        X_n = \sum_{i=1}^{X_n - 1} Z_i
+    \end{equation*}
+
+    với $Z_i$ biểu diễn số con cháu ở cá thể thứ $i$ của thế hệ thứ $n-1$.
+    Ta tính kỳ vọng của $X_n$ bằng cách lấy điều kiện trên $X_{n-1}$, ta thu được:
+
+    \begin{equation*}
+        \begin{aligned}
+            E \lbrack X_n \rbrack &= E \lbrack E \lbrack X_n \vert X_{n-1} \rbrack \rbrack \\
+            &= E \Bigg \lbrack E \Bigg \lbrack \sum_{i=1}^{X_n - 1} Z_i \vert X_{n-1} \Bigg \rbrack \Bigg \rbrack \\
+            &= E \lbrack X_{n-1} \mu \rbrack \\
+            &= \mu E \lbrack X_{n-1} \rbrack
+        \end{aligned}
+    \end{equation*}
+
+    ta sử dụng $E \lbrack Z_i \rbrack = \mu$. Vì $E \lbrack X_0 \rbrack = 1$, công thức trên trở thành:
+
+    \begin{equation*}
+        \begin{aligned}
+            E \lbrack X_1 \rbrack &= \mu \\
+            E \lbrack X_2 \rbrack &= \mu E \lbrack X_1 \rbrack = \mu^2 \\
+            & \vdots \\
+            E \lbrack X_n \rbrack &= \mu E \lbrack X_{n-1} \rbrack = \mu^n
+        \end{aligned}
+    \end{equation*}
+
+    Tương tự, $\mathrm{Var} (X_n)$ có thể được tính sử dụng công thức phương sai có điều kiện:
+
+    \begin{equation*}
+        \mathrm{Var} (X_n) = E \lbrack \mathrm{Var} (X_n \vert X_{n-1}) \rbrack + \mathrm{Var} (E \lbrack X_n \vert X_{n-1} \rbrack)
+    \end{equation*}
+
+    Khi ta đã biết $X_{n-1}$, $X_n$ là tổng của $X_{n-1}$ biến ngẫu nhiên độc lập có phân bố $\lbrace P_j, j \geq 0 \rbrace$.
+    Vì vậy:
+
+    \begin{equation*}
+        E \lbrack X_n \vert X_{n-1} \rbrack = X_{n-1} \mu, \mathrm{Var} (X_n \vert X_{n-1}) = X_{n-1} \sigma^2
+    \end{equation*}
+
+    Công thức phương sai có điều kiện bây giờ trở thành:
+
+    \begin{equation*}
+        \begin{aligned}
+            \mathrm{Var}(X_n) & =E[X_{n-1} \sigma^2]+\mathrm{Var}(X_{n-1} \mu) \\
+            &=\sigma^2 \mu^{n-1}+\mu^2 \mathrm{Var}(X_{n-1}) \\
+            &=\sigma^2 \mu^{n-1}+\mu^2(\sigma^2 \mu^{n-2}+\mu^2 \mathrm{Var}(X_{n-2})) \\
+            &=\sigma^2(\mu^{n-1}+\mu^n)+\mu^4 \mathrm{Var}(X_{n-2}) \\
+            &=\sigma^2(\mu^{n-1}+\mu^n)+\mu^4(\sigma^2 \mu^{n-3}+\mu^2 \mathrm{Var}(X_{n-3})) \\
+            &=\sigma^2(\mu^{n-1}+\mu^n+\mu^{n+1})+\mu^6 \mathrm{Var}(X_{n-3}) \\
+            &=\cdots \\
+            &=\sigma^2(\mu^{n-1}+\mu^n+\cdots+\mu^{2 n-2})+\mu^{2 n} \mathrm{Var}(X_0) \\
+            &=\sigma^2(\mu^{n-1}+\mu^n+\cdots+\mu^{2 n-2})
+        \end{aligned}
+    \end{equation*}
+
+    Vì vậy,
+
+    \begin{equation}
+        \begin{aligned}
+            \mathrm{Var} (X_n) = \begin{cases}
+                \sigma^2 \mu^{n-1} \Big ( \dfrac{1 - \mu^n}{1 - \mu} \Big) &\text{ nếu } \mu \neq 1 \\
+                n \sigma^2 &\text{ nếu } \mu = 1
+            \end{cases}
+        \end{aligned}
+    \end{equation}
+
+    Ta đặt $\pi_0$ ký hiệu quần thể cuối cùng sẽ biến mất (với giả định là $X_0=1$). Về mặt hình thức:
+
+    \begin{equation*}
+        \pi_0 = \lim_{n \rightarrow \infty} P \lbrace X_n = 0 \vert X_0 = 1 \rbrace
+    \end{equation*}
+
+    Bài toán xác định giá trị $pi_0$ lần đầu tiên được đặt ra bởi Galton vào năm 1889 liên quan tới sự biến mất của một dòng họ.
+
+    Ta thấy rằng $pi_0 = 1$ nếu $\mu < 1$ vì:
+
+    \begin{equation*}
+        \begin{aligned}
+            \mu^n = E \lbrack X_n \rbrack &= \sum_{j=1}^{\infty} j P \lbrace X_n = j \rbrace \\
+            & \geq \sum_{j=1}^{\infty} 1. P \lbrace X_n = j \rbrace \\
+            & = P \lbrace X_n \geq 1 \rbrace
+        \end{aligned}
+    \end{equation*}
+
+    Ta nhận thấy $\mu^n \rightarrow 0$ khi $\mu < 1$ kéo theo $P \lbrace X \geq 1 \rbrace \rightarrow 0$ vì vậy $P \lbrace X_n = 0 \rbrace \rightarrow 1$.
+
+    Thực tế, ta có thể chỉ ra $\pi_0 = 1$ ngay cả khi $\mu = 1$.K
+    Khi $\mu > 1$, ta thấy $\pi_0 < 1$, và công thức xác định $p_0$ nhận được bằng cách lấy điều kiện trên số con cháu của từng cá thể trong quần thể tại thế hệ 0:
+
+    \begin{equation*}
+        \begin{aligned}
+            \pi_0 &= P \lbrace \text{quần thể biến mất} \rbrace \\
+            &= \sum_{j=0}^{\infty} P \lbrace \text{quần thể biến mất} \vert X_1 = j \rbrace P_j
+        \end{aligned}        
+    \end{equation*}
+
+    Bây giờ, khi biết $X_1 = j$, quần thể sẽ bị biến mất khi và chỉ khi nếu từng dòng họ trong $j$ dòng họ được bắt đầu bằng các cá thể của thế hệ thứ nhất biến mất.
+    Ta giả sử từng dòng họ hoạt động độc lặp vì vậy, xác suất để từng dòng họ bị biến mất là $\pi_0$, ta thu được:
+    
+    \begin{equation*}
+        P \lbrace \text{quần thể biến mất}\vert X_1 = j \rbrace = \pi_0^j
+    \end{equation*}
+
+    và $\pi_0$ thỏa mãn:
+
+    \begin{equation} \label{eq:pi_0}
+        \pi_0 = \sum_{j=0}^{\infty} \pi_0^j P_j
+    \end{equation}
+
+    Thực tế khi $\mu > 1$, ta có thể thấy $\pi_0$ là số dương nhỏ nhất thỏa mãn công thức \ref{eq:pi_0}.
+
+    \begin{vd}
+        Nếu $P_0 = \dfrac{1}{2}, P_1 = \dfrac{1}{4}, P_2 = \dfrac{1}{4}$. Xác định $\pi_0$
+    \end{vd}
+
+    \begin{loigiai}
+        Vì $\mu = \dfrac{3}{4} \leq 1$ nên $\pi_0 = 1$
+    \end{loigiai}
+
+    \begin{vd} \label{vd:4.32}
+        Nếu $P_0 = \dfrac{1}{4}, P_1 = \dfrac{1}{4}, P_2 = \dfrac{1}{2}$. Xác định $\pi_0$.
+    \end{vd}
+
+    \begin{loigiai} \label{vd:4.33}
+        $\pi_0$ thỏa mãn:
         \begin{equation*}
-            P_{ii} = 1, i \in A
+            \pi_0 = \dfrac{1}{4} + \dfrac{1}{4} \pi_0 + \dfrac{1}{2} \pi_0^2
         \end{equation*}
 
-        Việc này biến các trạng thái trong tập $A$ thành trạng thái hồi quy, và biến đổi bất kỳ trạng thái nào ngoài tập $A$ nhưng cuối cùng cũng chuyển tiếp vào một trạng thái trong tập $A$ thành một trạng thái tạm thái.
-        Vì vậy, cách tiếp cận trước đây của ta có thể được sử dụng
+        hoặc
 
-        \section{Các quá trình phân nhánh}
+        \begin{equation*}
+            2 \pi_0^2 - 3 \pi_0 + 1 = 0
+        \end{equation*}
 
-        Trong phần này ta sẽ xem xét một lớp các xích Markov được gọi là các \textit{quá trình phân nhánh}.
-        Lớp xích Markov này có ứng dụng rất rộng rãi trong y học, xã hội học và khoa học kỹ thuật.
-
-        Ta xét một quần thể bao gồm các cá thể có thể tạo ra các thế hệ tiếp theo cùng loài.
-        Ta giả định rằng từng cá thể đến cuối thời gian sống tạo ra $j$ con với xác suất $P_j, j \geq 0$ và độc lập với số con được sinh ra bởi cá thể khác.
-        Ta giả sử $P_j < 1 \forall j \geq 0$.
-        Số cá thể ban đầu được ký hiệu là $X_0$, được gọi là kích cỡ của thế hệ thứ 0.
-        
+        Nghiệm dương nhỏ nhất của phương trình bậc 2 này là $\pi_0 = \dfrac{1}{2}$
     \end{loigiai}
+
+    \begin{vd}
+        Trong ví dụ \ref{vd:4.32} và ví dụ \ref{vd:4.33}, xác suất cả quần thì bị biến mất là bao nhiêu nếu ban đầu bao gồm $n$ cá thể?
+    \end{vd}
+
+    \begin{loigiai}
+        Khi cả quần thể bị biến mất khi và chỉ khi tất cả các dòng họ của từng thành viên của thế hệ ban đầu biến mất, xác suất này là $\pi_0^n$.
+        Ví dụ \ref{vd:4.32} thu được $\pi_0^n = 1$, và cho ví dụ \ref{vd:4.33}, $\pi_0^n = \Big ( \dfrac{1}{2} \Big )^n$
+    \end{loigiai}
+
+    \section{Xích Markov đảo ngược thời gian}
+
+    
 \end{document}
