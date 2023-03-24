@@ -510,5 +510,75 @@
 
     \section{Xích Markov đảo ngược thời gian}
 
-    
+    Ta xét một xích Markov ergodic dừng (là một xích Markov đã được vận hành một thời gian dài) có xác suất chuyển trạng thái $P_{ij}$ và phân bố dừng $\pi_i$ và ta giả sử rằng tại một vài thời điểm ta lưu vết dãy các trạng thái đi ngược thời gian.
+    Bắt đầu ở thời điểm, ta xét dãy các trạng thái $X_n, X_{n-1}, X_{n-2}, \dots$.
+    Ta nhận thấy dãy trạng thái này cũng là một xích Markov với xác suất chuyển trạng thái $Q_{ij}$ được định nghĩa bởi:
+
+    \begin{equation*}
+        \begin{aligned}
+            Q_{ij} &= P \lbrace X_m = j \vert X_{m+1} = i \rbrace \\
+            &= \dfrac{P \lbrace X_m = j, X_{m+1}=i \rbrace}{P \lbrace X_{m+1}=i \rbrace} \\
+            &= \dfrac{P \lbrace X_m = j \vert X_{m+1} = i \rbrace P \lbrace X_{m+1=i \vert X_m = j \rbrace}}{P \lbrace X_{m+1}=j \rbrace} \\
+            &= \dfrac{\pi_j P_{ji}}{\pi_i}
+        \end{aligned}
+    \end{equation*}
+
+    Để chứng minh quá trình ngược thực sự là một xích Markov ta cần kiểm chứng:
+
+    \begin{equation*}
+        P \lbrace X_m = j \vert X_{m+1}=i, X_{m+2}, X_{m+3}, \dots \rbrace P \lbrace X_m = j \vert X_{m+1}=i \rbrace
+    \end{equation*}
+
+    Ta xét thời điểm hiện tại là $m+1$. Khi $X_0, X_1, X_2, \dots$ là một xích Markov, phân bố có điều kiện của các trạng thái tương lai $X_{m+2}, X_{m+3}, \dots$ khi cho trạng thái hiện tại $X_{m+1}$ độc lập vào trạng thái quá khứ $X_m$.
+    Tuy nhiên, tính độc lập là một mối quan hệ đối xứng (nếu A độc lập với B thì B cũng độc lập với A) và vì vậy khi biết $X_{m+1}$ thì $X_m$ độc lập với $X_{m+2}, X_{m+3}, \dots$ và đây chính xác là việc ta cần kiểm chứng.
+
+    Vì vậy, quá trình ngược cũng là một xích Markov với xác suất chuyển trạng thái được tính bởi công thức:
+
+    \begin{equation*}
+        Q_{ij} = \dfrac{\pi_j P_{ji}}{\pi_i}
+    \end{equation*}
+
+    Nếu $Q_{ij} = P_{ij}$ với mọi $i, j$ khi đó xích Markov được gọi là khả đảo thời gian.
+    Điều kiện cho việc khả đảo thời gian $Q_{ij}=P_{ij}$ có thể được biểu diễn bởi:
+
+    \begin{equation} \label{eq:Time-Reversible}
+        \pi_i P_{ij} = \pi_j P_{ji} \forall i, j
+    \end{equation}
+
+    Điều kiện trong công thức \ref{eq:Time-Reversible} có thể được phát biểu là với mọi trạng thái $i$ và $j$, tỷ lệ quá trình đi từ $i$ đến $j$ ($\pi_i P_{ij}$) bằng với tỷ lệ quá trình đi từ $j$ đến $i$ ($\pi_j P_{ji}$).
+    Một điều rất cần chú ý là điều kiện cần hiển nhiên cho tính khả đảo thời gian là chuyển tiếp từ $i$ đến $j$ khi đi ngược thời gian tương đương với chuyển tiếp từ $j$ sang $i$ khi đi theo thuận chiều thời gian.
+    Nếu $Xm=i$ và $X_{m-1}=j$ thì một phép biến đổi từ $i$ sang $j$ được quan sát nếu ta quan sát ngược thời gian và một từ $j$ sang $i$ nếu ta nhìn thuận chiều thời gian.
+    Vì vậy, tỷ lệ mà quá trình thuận tạo ra một chuyên tiếp từ $j$ sang $i$ luôn luôn bằng với tỷ lệ quá trình ngược tạo ra một chuyển tiếp từ $i$ sang $j$.
+    Nếu khả đảo thời gian, tỷ lệ tạo ra một chuyển trạng thái từ $i$ sang $j$ của quá trình thuận và quá trình ngược phải bằng nhau.
+
+    Nếu ta có thể tìm các số không âm, tổng bằng 1 và thỏa mãn phương trình \ref{eq:Time-Reversible}, khi đó xích Markov là khả đảo thời gian và các số biểu diễn phân bố tới hạn. Nếu:
+
+    \begin{equation}
+        x_i P_{ij} = x_j P_{ji} \thickspace \forall i, j \thickspace \sum_{i} x_i = 1
+    \end{equation}
+
+    sau đó cổng tổng theo $i$ ta thu được:
+
+    \begin{equation*}
+        \sum_i x_i P_{ij} = x_j \sum_i P_{ji} = x_j, \thickspace \sum_{i} x_i = 1
+    \end{equation*}
+
+    và phân bố tới hạn $\pi_i$ chính là nghiệm duy nhất của phương trình trên nên $x_i = \pi_i$ với mọi $i$.
+
+    \begin{vd}
+        Ta xét các bước đi ngẫu nhiên với trạng thái $0, 1, \dots, M$ và xác suất chuyển trạng thái:
+
+        \begin{equation*}
+            \begin{cases}
+                P_{i, i+1} = \alpha_i = 1 - P_{i, i - 1}, \thickspace i=1, \dots, M-1 \\
+                P_{0, 1} = \alpha_0 = 1 - P_{0, 0} \\
+                P_{M,M} = \alpha_M - P_{M, M-1}
+            \end{cases}
+        \end{equation*}
+    \end{vd}
+
+    \begin{loigiai}
+        Không cần tính toán, ta có thể khẳng định đây là một xích Markov, quá trình này chỉ có thể tạo ra các chuyển tiếp từ một trạng thái sang hai trạng thái gần nhất, và khả đảo theo thời gian.
+        
+    \end{loigiai}
 \end{document}
