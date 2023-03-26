@@ -565,7 +565,7 @@
 
     và phân bố tới hạn $\pi_i$ chính là nghiệm duy nhất của phương trình trên nên $x_i = \pi_i$ với mọi $i$.
 
-    \begin{vd}
+    \begin{vd} \label{vd:4.35}
         Ta xét các bước đi ngẫu nhiên với trạng thái $0, 1, \dots, M$ và xác suất chuyển trạng thái:
 
         \begin{equation*}
@@ -578,7 +578,118 @@
     \end{vd}
 
     \begin{loigiai}
-        Không cần tính toán, ta có thể khẳng định đây là một xích Markov, quá trình này chỉ có thể tạo ra các chuyển tiếp từ một trạng thái sang hai trạng thái gần nhất, và khả đảo theo thời gian.
+        Không cần tính toán, ta có thể khẳng định đây là một xích Markov, quá trình này chỉ có thể tạo ra các chuyển tiếp từ một trạng thái sang hai trạng thái gần nhất, vì vậy xích Markov khả đảo theo thời gian.
+        Điều này xảy ra khi ta chú ý rằng số chuyển trạng thái từ $i$ sang $i+1$ tất cả phải nằm trong 1 trong các số từ $i+1$ sang $i$.
+        Bởi vì giữa hai chuyển tiếp bất kỳ từ $i$ sang $i+1$ phải có một lần chuyển từ $i+1$ sang $i$ (và ngược lại) vì vậy chỉ có duy nhất để quay lại trạng thái $i$ từ một trạng thái cao hơn bằng cách đi qua trạng thái $i+1$.
+        Vì vậy, tỷ lệ chuyển tiếp từ $i$ sang $i+1$ bằng tỷ lệ từ $i+1$ sang $i$ và vì vậy quá trình là khả đảo thời gian.
+
+        Ta có thể dễ dàng tìm phân bố giới hạn bằng cách với mỗi trạng thái $i=0,1,\dots,M-1$, xác suất mà quá trình chuyển từ trạng thái $i$ sang trạng thái $i+1$ bằng xác suất chuyển từ trạng thái $i+1$ sang trạng thái $i$.
+        Ta thu được:
         
+        \begin{equation*}
+            \begin{aligned}
+                \pi_0 \alpha_0 &= \pi_1 (1 - \alpha_1) \\
+                \pi_1 \alpha_1 &= \pi_2 (1 - \alpha_2) \\
+                & \vdots \\
+                \pi_i \alpha_i &= \pi_{i+1} (1 - \alpha_{i+1})
+            \end{aligned}
+        \end{equation*}
+
+        Giải hệ phương trình trên theo $\pi_0$, ta thu dược:
+
+        \begin{equation*}
+            \begin{aligned}
+                \pi_1 &= \dfrac{\alpha_0}{1-\alpha_1} \pi_0 \\
+                \pi_2 &= \dfrac{\alpha_1}{1-\alpha_2} \pi_1 = \dfrac{\alpha_1 \alpha_0}{(1-\alpha_2)(1-\alpha_1)} \pi_0
+            \end{aligned}
+        \end{equation*}
+
+        và tổng quát:
+
+        \begin{equation*}
+            \pi_i = \dfrac{\alpha_{i-1}\dots \alpha_0}{(1-\alpha_i)\dots(1-\alpha_1)} \pi_0, i = 1, 2, \dots, M
+        \end{equation*}
+
+        Vì $\sum_{0}^M \pi_i = 1$, ta thu được:
+
+        \begin{equation*}
+            \pi_0 \Bigg \lbrack 1 + \sum_{j=1}^M \dfrac{\alpha_{i-1}\dots \alpha_0}{(1-\alpha_i)\dots(1-\alpha_1)}  \Bigg \rbrack = 1
+        \end{equation*}
+
+        hoặc:
+
+        \begin{equation} \label{eq:4.23}
+            \pi_0 = \Bigg \lbrack 1 + \sum_{j=1}^M \dfrac{\alpha_{i-1}\dots \alpha_0}{(1-\alpha_i)\dots(1-\alpha_1)}  \Bigg \rbrack^{-1}
+        \end{equation}
+
+        và:
+
+        \begin{equation} \label{eq:4.24}
+            \pi_i = \dfrac{\alpha_{i-1}\dots \alpha_0}{(1-\alpha_i)\dots(1-\alpha_1)} \pi_0, i = 1, 2, \dots, M
+        \end{equation}
+
+        Ví dụ, nếu $\alpha_i \equiv \alpha $ khi đó:
+
+        \begin{equation*}
+            \begin{aligned}
+                \pi_0 &= \Bigg \lbrack 1 + \sum_{j=1}^M \Big ( \dfrac{\alpha}{1-\alpha} \Big)^j \Bigg \rbrack^{-1} \\
+                &= \dfrac{1-\beta}{1-\beta_{M+1}}
+            \end{aligned}
+        \end{equation*}
+
+        và tổng quát:
+
+        \begin{equation*}
+            \pi_i = \dfrac{\beta_i (1 - \beta)}{1 - \beta_{M+1}}, i = 0, 1 , \dots, M
+        \end{equation*}
+
+        với:
+
+        \begin{equation*}
+            \beta = \dfrac{\alpha}{1 - \alpha}
+        \end{equation*}
     \end{loigiai}
+
+    Một trường hợp đặc biệt khác của ví dụ \ref{vd:4.35} là mô hình chiếc bình được nhà vật lý học T. Ehrenfest đề xuất để mô tả chuyển động của các phần tử.
+    Ta giả sử rằng M phân tử được phân phối giữa hai bình và tại mỗi thời điểm một phân tử được chọn ngẫu nhiên, được lấy ra khỏi bình hiện tại và chuyển sang bình còn lại.
+    Số phân tử trong bình là trường hợp đặc biệt của xích Markov trong ví dụ \ref{vd:4.35}:
+
+    \begin{equation*}
+        \alpha_i = \dfrac{M - i}{M}, i = 0, 1, \dots, M
+    \end{equation*}
+
+    Vì vậy, sử dụng công thức \ref{eq:4.23} và \ref{eq:4.24} phân bố giới hạn trong trường hợp này là:
+
+    \begin{equation*}
+        \begin{aligned}
+            \pi_0 &= \Bigg \lbrack 1 + \sum_{j=1}^M \dfrac{(M-j+1) \dots (M-1)M}{j (j-1) \dots 1} \Bigg \rbrack^{-1} \\
+            &= \Bigg \lbrack \sum_{j=0}^M \binom Mj \Bigg \rbrack^{-1} \\
+            &= \Bigg ( \dfrac{1}{2} \Bigg )^M
+        \end{aligned}
+    \end{equation*}
+
+    Ta sử dụng đồng nhất thức:
+
+    \begin{equation*}
+        \begin{aligned}
+            1 &= \Big ( \dfrac{1}{2} + \dfrac{1}{2} \Big)^M \\
+            &= \sum_{j=0}^M \binom{M}{j} \Bigg ( \dfrac{1}{2} \Bigg )^M
+        \end{aligned}
+    \end{equation*}
+
+    Vì vậy, từ công thức \ref{eq:4.24}:
+
+    \begin{equation*}
+        \pi_i = \binom{M}{i} \Bigg ( \dfrac{1}{2} \Bigg)^M, i = 0, 1, \dots, M
+    \end{equation*}
+
+    Bởi vì công thức trên chỉ là phân bố nhị thức, vì vậy trong dài hạn, vị trí của từng quả cầu trong $M$ quả cầu độc lập và từng quả có thể ở hai bình với xác suất như nhau.
+    Tuy nhiên, một cách khá trực quan, nếu ta chú ý vào một quả cầu bất kỳ, rất rõ ràng nếu vị trí của quả cầu độc lập so với vị trí của các quả cầu khác (vì không quan trọng $M-1$ quả cầu còn lại ở đâu, quả cầu khi được chú ý tại từng bước sẽ được di chuyển với xác suất $1/M$) và vì tính đối xứng, khả năng nó nằm trong một trong hai bình là như nhau.
+
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[scale=0.5]{1.png}
+        \caption{Một đồ thị liên thông với trọng số của các cung}
+        \label{fig:4.1}
+    \end{figure}
 \end{document}
