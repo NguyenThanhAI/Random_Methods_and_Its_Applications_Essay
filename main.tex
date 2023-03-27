@@ -578,7 +578,7 @@
     \end{vd}
 
     \begin{loigiai}
-        Không cần tính toán, ta có thể khẳng định đây là một xích Markov, quá trình này chỉ có thể tạo ra các chuyển tiếp từ một trạng thái sang hai trạng thái gần nhất, vì vậy xích Markov khả đảo theo thời gian.
+        Không cần tính toán, ta có thể khẳng định đây là một xích Markov, quá trình này chỉ có thể tạo ra các chuyển tiếp từ một trạng thái sang hai trạng thái gần nhất, vì vậy xích Markov khả đảo thời gian.
         Điều này xảy ra khi ta chú ý rằng số chuyển trạng thái từ $i$ sang $i+1$ tất cả phải nằm trong 1 trong các số từ $i+1$ sang $i$.
         Bởi vì giữa hai chuyển tiếp bất kỳ từ $i$ sang $i+1$ phải có một lần chuyển từ $i+1$ sang $i$ (và ngược lại) vì vậy chỉ có duy nhất để quay lại trạng thái $i$ từ một trạng thái cao hơn bằng cách đi qua trạng thái $i+1$.
         Vì vậy, tỷ lệ chuyển tiếp từ $i$ sang $i+1$ bằng tỷ lệ từ $i+1$ sang $i$ và vì vậy quá trình là khả đảo thời gian.
@@ -692,4 +692,194 @@
         \caption{Một đồ thị liên thông với trọng số của các cung}
         \label{fig:4.1}
     \end{figure}
+
+    \begin{vd}
+        Ta xét một đồ thị liên thông bất kỳ với các trọng số $w_{ij}$ tương ứng với cung $(i, j)$.
+        Một ví dụ về đồ thị liên thông ở trong hình \ref{fig:4.1}.
+        Ta xét một hạt di chuyển từ đỉnh này sang đỉnh khác theo cách sau: Nếu tại một thời điểm bất kỳ, hạt nằm ở đỉnh $i$, tiếp theo nó sẽ di chuyển đến đỉnh $j$ với xác suất $P_{ij}$ với:
+
+        \begin{equation*}
+            P_{ij} = \dfrac{w_{ij}}{\sum_j w_{ij}}
+        \end{equation*}
+
+        và $w_{ij} = 0$ nếu $(i, j)$ không phải là một cung.
+        Ví dụ, với đồ thị trong hình \ref{fig:4.1}, $P_{12}=3/(3+1+2)=\dfrac{1}{2}$
+    \end{vd}
+
+    \begin{loigiai}
+        Từ phương trình khả đảo thời gian:
+
+        \begin{equation*}
+            \pi_i = P_{ij} = \pi_j P_{ji}
+        \end{equation*}
+
+        trở thành:
+
+        \begin{equation*}
+            \pi_i \dfrac{w_{ij}}{\sum_j w_{ij}} = \pi_j \dfrac{w_{ji}}{\sum_i w_{ji}}
+        \end{equation*}
+
+        do $w_{ij} = w_{ji}$:
+
+        \begin{equation*}
+            \dfrac{\pi_i}{\sum_j w_{ij}} = \dfrac{\pi_j}{sum_i w_{ji}}
+        \end{equation*}
+
+        tương đương với:
+
+        \begin{equation*}
+            \dfrac{\pi_i}{\sum_j w_{ij}} = c
+        \end{equation*}
+
+        hoặc:
+
+        \begin{equation*}
+            \pi_i = c \sum_j w_{ij}
+        \end{equation*}
+
+        Vì $\sum_i \pi_i = 1$ nên:
+
+        \begin{equation*}
+            \pi_i \dfrac{\sum_j w_{ij}}{\sum_i \sum_j w_{ij}}
+        \end{equation*}
+
+        $\pi_i$ được tính từ công thức ở trên thỏa mãn điều kiện khả đảo thời gian, kéo theo quá trình là khả đảo thời gian với phân bố giới hạn.
+
+        Với đồ thị trong hình \ref{fig:4.1}, ta có:
+
+        \begin{equation*}
+            \pi_1 = \dfrac{6}{32}, \pi_2 = \dfrac{3}{32}, \pi_3 = \dfrac{6}{32}, \pi_4 = \dfrac{5}{32}, \pi_5 = \dfrac{12}{32}
+        \end{equation*}
+    \end{loigiai}
+
+    Nếu ta cố gắng giải phương trình \ref{eq:Time-Reversible} cho một xích Markov bất kỳ với các trạng thái $0, 1, \dots, M$, thường phương trình sẽ vô nghiệm.
+    Ví dụ, từ phương trình \ref{eq:Time-Reversible}:
+
+    \begin{equation*}
+        \begin{aligned}
+            x_i P_{ij} &= x_j P_{ji} \\
+            x_k P_{kj} &= x_j P_{jk}
+        \end{aligned}
+    \end{equation*}
+
+    hay (nếu $P_{ij} P_{jk} > 0$):
+
+    \begin{equation*}
+        \dfrac{x_i}{x_k} = \dfrac{P_{ji}P_{kj}}{P_{ij}P_{jk}}
+    \end{equation*}
+
+    về mặt tổng không cần bằng $P_{ki}/P_{k}$.
+    Vì vậy, ta thấy điều kiện cận cho khả đảo thời gian là:
+
+    \begin{equation} \label{eq:4.25}
+        P_{ik} P_{kj} P_{ji} = P_{ij} P_{jk} P_{ki} \thickspace \forall \thickspace i, j, k
+    \end{equation}
+
+    tương đương với phát biểu sau, bắt đầu ở trạng thái $i$, dãy chuyển tiếp trạng thái $i \rightarrow k \rightarrow j \rightarrow i$ có cùng xác suất với dãy chuyển tiếp ngược $i \rightarrow j \rightarrow k \rightarrow i$.
+    Để hiểu điều kiện cần, ta chú ý xác suất một dãy các bước chuyển trạng thái từ $i$ sang $k$ sang $j$ và quay lại $i$ cùng xác suất với dãy các bước chuyển trạng thái từ $i$ sang $j$ sang $k$ và sang $i$ và vì vậy ta phải có:
+
+    \begin{equation*}
+        \pi_i P_{ik} P_{kj} P_{ji} = \pi_i P_{ij} P_{jk} P_{ki}
+    \end{equation*}
+
+    với $\pi_i > 0$. Ta có thể chứng minh định lý sau:
+
+    \begin{dl} \label{dl:4.2}
+        Một xích Markov ergodic với $P_{ij}=0$ bất kỳ khi nào $P_{ji}=0$ là khả đảo thời gian khi và chỉ khi bắt đầu ở trạng thái $i$, bất kỳ quỹ đạo nào quay trở lại $i$ với xác suất bằng xác suất quỹ đạo ngược:
+
+        \begin{equation} \label{eq:4.26}
+            P_{ii_1} P_{i_1 i_2} \dots P_{i_k i} = P_{i i_k} P_{i_k i_{k-1}} \dots P_{i_1 i}
+        \end{equation}
+
+        với mọi trạng thái $i, i_1, \dots, i_k$
+    \end{dl}
+
+    \textbf{Chứng minh.}
+
+    Ta đã chứng minh điều kiện cần.
+    Để chứng minh điều kiện đủ, ta cố định trạng thái $i$ và $j$ và viết lại công thức \ref{eq:4.26} thành:
+
+    \begin{equation*}
+        P_{ii_1} P_{i_1 i_2} \dots P_{i_k j} P_{ji} = P_{ij} P_{j i_k} \dots P_{i_1 i}
+    \end{equation*}
+
+    Lấy tổng công thức trên theo tất cả các trạng thái $i_1, \dots, i_k$ ta thu được:
+
+    \begin{equation*}
+        P_{ij}^{k+1} P_{ji} = P_{ij} P_{ji}^{k+1}
+    \end{equation*}
+
+    Cho $k \rightarrow \infty$, ta thu được:
+
+    \begin{equation*}
+        \pi_j P_{ji} = P_{ij} \pi_i
+    \end{equation*}
+
+    Ta chứng minh xong định lý trên.
+
+    \begin{vd}
+        Giả sử ta được cung cấp một tập gồm $n$ phần tử, được đánh số từ 1 đến $n$ và được sắp xếp theo một danh sách có thứ tự.
+        Tại từng bước thời gian, một yêu cầu truy xuất vào một trong những phần tử này, phần tử $i$ được yêu cầu (độc lập với quá khứ) với xác suất $P_i$.
+        Sau khi được yêu cầu, phần tử được đặt trở lại nhưng không nhất thiết phải ở vị trí cũ.
+        Thực tế, ta giả sử rằng phần tử được yêu cầu được di chuyển gần đến phía trước của danh sách hơn một bước.
+        Ví dụ, nếu thứ tự trong danh sách hiện tại là 1, 3, 4, 2, 5 và phần tử 2 được yêu cầu, thứ tự mới sẽ trở thành 1, 3, 2, 4, 5.
+        Ta quân tâm đến vị trí trung bình dài hạn của các phần tử được yêu cầu.
+    \end{vd}
+
+    \begin{loigiai}
+        Khi được cho một vector phân bố $P=\begin{pmatrix}
+            P_1, P_2, \dots, P_n
+        \end{pmatrix}$, thứ tự của các phần tử có thể được mô hình hóa là một xích Markov với $n!$ trạng thái, với trạng thái tại thời điểm bất kỳ nào là thứ tự của danh sách tại thời điêm rđó.
+        Ta sẽ chỉ ra rằng xích Markov này là khả đảo thời gian và sử dụng tính chất này để chỉ ra vị trí trung bình của phần tử được yêu cầu khi quy tắc di chuyển lên một vị trí có hiệu lực thấp hơn so với quy tắc luôn luôn di chuyển phần tử được yêu cầu lên đầu danh sách.
+        Tính khả đảo thời gian của xích Markov khi quy luật di chuyển lên một vị trí luôn luôn dễ có hiệu lực hơn từ định lý \ref{dl:4.2}.
+        Ví dụ, giả sử $n=3$ và xét đường đi từ trạng thái (1, 2, 3) quay về chính nó:
+
+        \begin{equation*}
+            (1, 2, 3) \rightarrow (2, 1, 3) \rightarrow (2, 3, 1) \rightarrow (3, 2, 1) \rightarrow(3, 1, 2) \rightarrow (1, 3, 2) \rightarrow (1, 2, 3)
+        \end{equation*}
+
+        Tích của các xác suất chuyển tiếp theo chiều thuận là:
+
+        \begin{equation*}
+            P_2 P_3 P_3 P_1 P_1 P_2 = P_1^2 P_2^2 P_3^2
+        \end{equation*}
+
+        Và xác suất chuyển tiếp theo chiều ngược là:
+
+        \begin{equation*}
+            P_3 P_3 P_2 P_2 P_2 P_2 = P_1^2 P_2^2 P_3^2
+        \end{equation*}
+
+        Bởi vì kết quả tổng quát diễn ra theo cách tương tự, xích Markov khả đảo thời gian. 
+        Đối với một tham số hình thức nếu $f_i$ biểu diễn số lần phẩn tử $i$ tiến về phía trước trong quỹ đạo, khi quỹ đạo đi từ một trạng thái cố định rồi trở lại chính trạng thái này $f_i$ lần.
+        Vì vậy khi quỹ đạo đảo ngược đi qua phần tử $i$ đúng bằng số lần trong quỹ đạo thuận, vì vậy tích của các xác suất chuyển trạng thái cho cả quỹ đạo thuận và quỹ đạo ngược sẽ bằng nhau và bằng:
+
+        \begin{equation*}
+            \displaystyle\prod_i P_i^{f_i + r_i}
+        \end{equation*}
+
+        với $r_i$ là số lần mà phần tử $i$ ở vị trí ban đầu và quỹ đạo thuận hoặc quỹ đạo ngược không thay đổi trạng thái.
+
+        Với mọi hoán vị $i_1, i_2, \dots, i_n$ của $1, 2, \dots, n$, ta đặt $\pi (i_1, i_2, \dots, i_n)$ ký hiệu phân bố giới hạn ứng với quy luật dịch chuyển một vị trí.
+        Với điều kiện khả đảo thời gian, ta có:
+
+        \begin{equation} \label{eq:4.27}
+            P_{i_{j+1}} \pi (i_1, \dots, i_j, i_{j+1}, \dots, i_n) = P_{i_j} \pi (i_1, \dots, i_{j+1}, i_j, \dots, i_n)
+        \end{equation}
+
+        với mọi hoán vị.
+
+        Bây giờ ta sẽ lấy trung bình vị trí của phần tử được yêu cầu có thể được biểu diễn dưới dạng:
+
+        \begin{equation*}
+            \begin{aligned}
+                \text{Vị trí trung bình } &= \displaystyle \sum_i P_i E \lbrack \text{ Vị trí của phần tử } i \rbrack \\
+                &= \displaystyle \sum_i P_i \Bigg \lbrack 1+ \sum_{j \neq i} P \lbrace \text{phần tử } j \text{ ngay phía trước phần tử } i \rbrace \Bigg \rbrack \\
+                &= 1 + \sum_i \sum_{j \neq i} P_i P \lbrace e_j \text{ ngay phía trước } e_i \rbrace \\
+                &= \sum_{i < j} \lbrack P_i P \lbrace e_j \text{ ngay phía trước } e_i \rbrace + P_j P \lbrace e_i \text{ ngay phía trước } e_j \rbrace  \rbrack \\
+                &= \sum_{i < j} \lbrack P_i P \lbrace e_j \text{ ngay phía trước } e_i \rbrace + P_j (1 - P \lbrace e_j \text{ ngay phía trước } e_i \rbrace)  \rbrack \\
+                &= 1 + \sum\sum_{i<j} (P_i - P_j) P \lbrace e_j \text{ ngay phía trước } e_i \rbrace + \sum\sum_{i<j} P_j
+            \end{aligned}
+        \end{equation*}
+    \end{loigiai}
 \end{document}
