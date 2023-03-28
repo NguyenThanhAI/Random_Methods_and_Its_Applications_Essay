@@ -58,6 +58,8 @@
 \setcounter{secnumdepth}{3} % Cho phép subsubsection trong report
 \setcounter{tocdepth}{3} % Chèn subsubsection vào bảng mục lục
 
+\newtheorem{md}{Mệnh đề}
+
 \newtheorem{dl}{Định lý}
 \newtheoremstyle{sltheorem}
 {}                % Space above
@@ -83,6 +85,7 @@
 \newtheorem*{loigiai}{Lời giải}
 
 \numberwithin{dl}{section}
+\numberwithin{md}{section}
 \numberwithin{vd}{section}
 
 \doublespacing
@@ -830,8 +833,8 @@
         Khi được cho một vector phân bố $P=\begin{pmatrix}
             P_1, P_2, \dots, P_n
         \end{pmatrix}$, thứ tự của các phần tử có thể được mô hình hóa là một xích Markov với $n!$ trạng thái, với trạng thái tại thời điểm bất kỳ nào là thứ tự của danh sách tại thời điêm rđó.
-        Ta sẽ chỉ ra rằng xích Markov này là khả đảo thời gian và sử dụng tính chất này để chỉ ra vị trí trung bình của phần tử được yêu cầu khi quy tắc di chuyển lên một vị trí có hiệu lực thấp hơn so với quy tắc luôn luôn di chuyển phần tử được yêu cầu lên đầu danh sách.
-        Tính khả đảo thời gian của xích Markov khi quy luật di chuyển lên một vị trí luôn luôn dễ có hiệu lực hơn từ định lý \ref{dl:4.2}.
+        Ta sẽ chỉ ra rằng xích Markov này là khả đảo thời gian và sử dụng tính chất này để chỉ ra vị trí trung bình của phần tử được yêu cầu khi quy tắc di chuyển lên một bước vị trí (giả sử phần tử ở vị trí thứ hai được đẩy lên vị trí thứ nhất trong hàng) có hiệu lực nhỏ hơn so với quy luật luôn luôn di chuyển phần tử được yêu cầu lên đầu danh sách.
+        Tính khả đảo thời gian của xích Markov khi quy luật di chuyển lên một bước vị trí luôn luôn dễ có hiệu lực hơn từ định lý \ref{dl:4.2}.
         Ví dụ, giả sử $n=3$ và xét đường đi từ trạng thái (1, 2, 3) quay về chính nó:
 
         \begin{equation*}
@@ -874,12 +877,207 @@
         \begin{equation*}
             \begin{aligned}
                 \text{Vị trí trung bình } &= \displaystyle \sum_i P_i E \lbrack \text{ Vị trí của phần tử } i \rbrack \\
-                &= \displaystyle \sum_i P_i \Bigg \lbrack 1+ \sum_{j \neq i} P \lbrace \text{phần tử } j \text{ ngay phía trước phần tử } i \rbrace \Bigg \rbrack \\
-                &= 1 + \sum_i \sum_{j \neq i} P_i P \lbrace e_j \text{ ngay phía trước } e_i \rbrace \\
-                &= \sum_{i < j} \lbrack P_i P \lbrace e_j \text{ ngay phía trước } e_i \rbrace + P_j P \lbrace e_i \text{ ngay phía trước } e_j \rbrace  \rbrack \\
-                &= \sum_{i < j} \lbrack P_i P \lbrace e_j \text{ ngay phía trước } e_i \rbrace + P_j (1 - P \lbrace e_j \text{ ngay phía trước } e_i \rbrace)  \rbrack \\
-                &= 1 + \sum\sum_{i<j} (P_i - P_j) P \lbrace e_j \text{ ngay phía trước } e_i \rbrace + \sum\sum_{i<j} P_j
+                &= \displaystyle \sum_i P_i \Bigg \lbrack 1+ \sum_{j \neq i} P \lbrace \text{phần tử } j \text{ đứng trước phần tử } i \rbrace \Bigg \rbrack \\
+                &= 1 + \sum_i \sum_{j \neq i} P_i P \lbrace e_j \text{ đứng trước } e_i \rbrace \\
+                &= \sum_{i < j} \lbrack P_i P \lbrace e_j \text{ đứng trước } e_i \rbrace + P_j P \lbrace e_i \text{ đứng trước } e_j \rbrace  \rbrack \\
+                &= \sum_{i < j} \lbrack P_i P \lbrace e_j \text{ đứng trước } e_i \rbrace + P_j (1 - P \lbrace e_j \text{ đứng trước } e_i \rbrace)  \rbrack \\
+                &= 1 + \sum\sum_{i<j} (P_i - P_j) P \lbrace e_j \text{ đứng trước } e_i \rbrace + \sum\sum_{i<j} P_j
             \end{aligned}
         \end{equation*}
+
+        Vì vậy, để cực tiểu hóa vị trí trung bình của phần tử được yêu cầu, ta muốn làm cho xác suất $\lbrace e_j \text{ đứng trước } e_i \rbrace$ lớn nhất có thể khi $P_j > P_i$ và nhỏ nhất có thể khi $P_i > P_j$:
+
+        \begin{equation*}
+            P \lbrace e_j \text{ đứng trước } e_i \rbrace = \dfrac{P_j}{P_j + P_i}
+        \end{equation*}
+
+        (vì theo quy tắc đầu hàng phần tử $j$ sẽ đứng trước phần tử $i$ khi và chỉ khi yêu cầu cuối cùng cho $i$ hoặc $j$ là cho $j$).
+
+        Vì vậy, để chỉ ra quy luật di chuyển lên một bước vị trí tốt hơn so với quy luật đầu hàng là đủ để chứng minh với luật di chuyển lên một bước:
+
+        \begin{equation*}
+            P \lbrace e_j \text{ đứng trước } e_i \rbrace > \dfrac{P_j}{P_j + P_i} \text{ khi } P_j > P_i
+        \end{equation*}
+
+        Bây giờ ta xét trạng thái bất kỳ sao cho phần tử $i$ đứng trước phần tử $j$ ví dụ $(\dots, i, i_1, \dots, i_k, j, \dots)$.
+        Bằng cách chuyển vị liên tiếp các bước sử dụng công thức \ref{eq:4.27}, ta có:
+
+        \begin{equation} \label{eq:4.28}
+            \pi (\dots, i, i_1, \dots, i_k, j, \dots) = \Bigg ( \dfrac{P_i}{P_j} \Bigg)^{k+1} \pi (\dots, j, i_1, \dots, i_k, i, \dots)
+        \end{equation}
+
+        Ví dụ:
+
+        \begin{equation*}
+            \begin{aligned}
+                \pi (1, 2, 3) &= \dfrac{P_2}{P_3} \pi (1, 3, 2) = \dfrac{P_2}{P_3} \dfrac{P_1}{P_3} \pi (3, 1, 2) \\
+                &= \dfrac{P_2}{P_3} \dfrac{P_1}{P_3} \dfrac{P_1}{P_2} \pi (3, 2, 1) = \Bigg( \dfrac{P_1}{P_3} \Bigg)^2 \pi(3, 2, 1)
+            \end{aligned}
+        \end{equation*}
+
+        Khi $P_j > P_i$, công thức \ref{eq:4.28} cho ta hiểu rằng:
+
+        \begin{equation*}
+            \pi (\dots, i, i_1, \dots, i_k, j, \dots) < \dfrac{P_i}{P_j} \pi (\dots, j, i_1, \dots, i_k, i, \dots)
+        \end{equation*}
+
+        Ta đặt $\alpha(i, j) = P \lbrace e_i \text{ đứng trước } e_j \rbrace$, ta lấy tổng tất cả các trạng thái sao cho $i$ đứng trước $j$:
+
+        \begin{equation*}
+            \alpha (i, j) < \dfrac{P_i}{P_j} \alpha (j, i)
+        \end{equation*}
+
+        Vì $\alpha(i, j) = 1 - \alpha(j, i)$, ta thu được:
+
+        \begin{equation*}
+            \alpha (j, i) > \dfrac{P_j}{P_j + P_i}
+        \end{equation*}
+
+        Vì vậy vị trí trung bình của phần tử được yêu cầu nhỏ hơn khi ở quy luật di chuyển lên một bước vị trí so với quy luật đầu hàng.    
     \end{loigiai}
+
+    Khái niệm về xích Markov khả đảo rất hữu ích ngay cả khi quá trình là không khả đảo thời gian.
+    Để minh họa, ta bắt đầu với mệnh đề sau:
+
+    \begin{md} \label{md:4.7}
+        Ta xét một xích Markov không tối giản với xác suất chuyển trạng thái $P_{ij}$.
+        Nếu ta có thể tìm các số dương $\pi, i \geq 0$ và tổng bằng 1, và một ma trận xác suất chuyển tiếp $\mathbf{Q} = \lbrack Q_{ij} \rbrack$ thỏa mãn:
+
+        \begin{equation} \label{eq:4.29}
+            \pi_i P_{ij} = \pi_j Q_{ji}
+        \end{equation}
+
+        Khi đó $Q_{ij}$ là xác suất chuyển trạng thái của xích Markov ngược và $\pi_i$ là phân bố tĩnh của cả xích Markov ban đầu và xích Markov ngược.
+    \end{md}
+
+    Sự quan trọng của mệnh đề trên là ta có thể đoán đặc tính của xích Markov ngược và sử dụng hệ các phương trình ở công thức \ref{eq:4.29} để thu được phân bố tĩnh của xích Markov thuận và xích Markov và $Q_{ij}$.
+
+    \begin{vd}
+        Một bóng đèn duy nhất là đủ để thắp sáng một căn phòng.
+        Khi bóng đèn bị hỏng sẽ được thay bằng một bóng đèn mới vào bắt đầu của ngày tiếp theo.
+        Ta đặt $X_n$ bằng $i$ nếu bóng đèn được sử dụng vào bắt đầu của ngày thứ $n$ là ngày thứ $i$ mà bóng đèn được sử dụng (tuổi của bóng đèn là $i$).
+        Ví dụ, nếu bóng đèn bị hỏng vào ngày thứ $n-1$, sau đó một bóng đèn mới được thay thế để sử dụng vào bắt đầu của ngày thứ $n$ và vì vậy $X_n = 1$.
+        Ta giả sử từng bóng đèn hỏng trong ngày thứ $i$ được sử dụng với xác suất $p_i, i \geq 1$.
+    \end{vd}
+
+    \begin{loigiai}
+        Ta dễ dàng thấy rằng $\lbrace X_n, n \geq 1 \rbrace$ là một xích Markov mà xác suất chuyển trạng thái được tính như sau:
+
+        \begin{equation*}
+            \begin{aligned}
+                P_{i,1} &= P \lbrace \text{bóng đèn ở ngày thứ } i \text{ mà nó được sử dụng, bị hỏng} \rbrace \\
+                &= P \lbrace \text{tuổi thọ bóng đèn } = i \vert \text{tuổi thọ bóng đèn } \geq 1 \rbrace \\
+                &= \dfrac{P \lbrace L = i \rbrace}{P \lbrace L \geq i \rbrace}
+            \end{aligned}
+        \end{equation*}
+
+        với $L$ là một biến ngẫu nhiên biểu diễn tuổi thọ của bóng đèn với $P \lbrace L = i \rbrace = p_i$. Ta nhận thấy:
+
+        \begin{equation*}
+            P_{i, i+1}=1 - P _{i, 1}
+        \end{equation*}
+
+        Ta giả sử rằng xích đã hoạt động được một thời gian dài (theo lý thuyết là vô hạn) và ta xét dãy các trạng thái đi ngược thời gian.
+        Vì vậy, theo chiều thuận, trạng thái luôn tăng lên 1 đơn vị đến khi bóng đèn bị hỏng.
+        Ta cũng dễ dàng thấy xích ngược luôn giảm 1 đơn vị đến khi đến 1 và sẽ nhảy lên một giá trị ngẫu nhiên biểu diễn tuổi thọ của bóng đèn trước đó.
+        Vì vậy, xích ngược có xác suất chuyển trạng thái:
+
+        \begin{equation*}
+            \begin{aligned}
+                Q_{i, i-1} &= 1, \thickspace i > 1 \\
+                Q_{1, i} &= p_i, \thickspace i \geq 1
+            \end{aligned}
+        \end{equation*}
+
+        Để kiểm tra điều này, tại cùng thời điểm xác dịnh phân bố tĩnh, ta phải thấy nếu với $Q_{ij}$ đã được cho ở công thức trên, các số dương $\lbrace p_i \rbrace$ sao cho:
+
+        \begin{equation*}
+            \pi_i P_{i, j} = \pi_j Q_{j, i}
+        \end{equation*}
+
+        Ta bắt đầu với $j=1$ và xét công thức trên:
+
+        \begin{equation*}
+            \pi_i \dfrac{P \lbrace L = i \rbrace}{P \lbrace L \geq i \rbrace} = \pi_1 P \lbrace L = i \rbrace
+        \end{equation*}
+
+        hay:
+
+        \begin{equation*}
+            \pi_i = \pi_1 P \lbrace L \geq 1 \rbrace
+        \end{equation*}
+
+        Ta lấy tổng theo $i$:
+
+        \begin{equation*}
+            1 = \sum_{i=1}^{\infty} \pi_i = \pi_1 \sum_{i=1}^{\infty} P \lbrace L \geq i \rbrace = \pi_1 E \lbrack L \rbrack
+        \end{equation*}
+
+        Và với $Q_{ij}$ biểu diễn xác suất chuyển tiếp ngược, phân bố dừng là:
+
+        \begin{equation*}
+            \pi_i = \dfrac{P \lbrace L \geq i \rbrace}{E \lbrack L \rbrack}, \thickspace i \geq 1
+        \end{equation*}
+
+        Để kết thúc chứng minh xác suất chuyển tiếp ngược và phân bố dừng như đã có ở trên, tất cả còn lại chứng minh thỏa chúng thỏa mãn:
+
+        \begin{equation*}
+            \pi_i P_{i, i+1} = \pi_{i+1} Q_{i+1, i}
+        \end{equation*}
+
+        tương đương với:
+
+        \begin{equation*}
+            \dfrac{P \lbrace L \geq 1 \rbrace}{e \lbrack L \rbrack} \Bigg (1 - \dfrac{P \lbrace L = i \rbrace}{P \lbrace L \geq 1 \rbrace} \Bigg) = \dfrac{P \lbrace L \geq i + 1 \rbrace}{E \lbrack L \rbrack}
+        \end{equation*}
+
+        Đẳng thức trên đúng do $P \lbrace L \geq i \rbrace - P \lbrace L = i \rbrace = P \lbrace L \geq i + 1 \rbrace$
+    \end{loigiai}
+
+    \section{Các phương pháp xích Markov Monte Carlo}
+
+    Ta gọi $\mathbf{X}$ là một vector ngẫu nhiên rời rạc mà tập các giá trị có thể có là $\mathbf{x}_j, j \geq 1$.
+    Ta đặt hàm trọng lượng xác suất của $\mathbf{X}$ được cho bởi $P \lbrace \mathbf{X} = \mathbf{x}_j \rbrace, j \geq 1$ và giả định rằng ta đang quan tâm việc tính đại lượng:
+
+    \begin{equation*}
+        \theta = E \lbrack h(\mathbf{X}) \rbrack = \sum_{j=1}^{\infty} h(\mathbf{x}_j) P \lbrace \mathbf{X} = \mathbf{x}_j \rbrace
+    \end{equation*}
+
+    cho từng hàm cụ thể $h$.
+    Trong trường hợp việc tính toán khó khăn để tính giá trị của hàm $h(\mathbf{x}_j), j \geq 1$, ta thường chuyển sang mô phỏng để xấp xỉ $\theta$.
+    Cách tiếp cận phổ biến được gọi là \textit{mô phỏng Monte Carlo}, sử dụng các số ngẫu nhiên để sinh ra một chuỗi các vector ngẫu nhiên độc lập và cùng phân bố $\mathbf{X}_1, \mathbf{X}_2, \dots, \mathbf{X}_n$ có hàm trọng lượng $P \lbrace \mathbf{X} = \mathbf{x}_j, j \geq 1$.
+    Theo luật số lớn mạnh:
+
+    \begin{equation} \label{eq:4.30}
+        \lim_{n \rightarrow \infty} \sum_{i=1}^{\infty} \dfrac{h(\mathbf{X}_i)}{n} = \theta
+    \end{equation}
+
+    Vì vậy, ta có thể ước lượng $\theta$ bằng cách cho $n$ lớn và sử dụng trung bình của các giá trị của $h(\mathbf{X}_i), i=1, \dots, n$ là bộ ước lượng.
+
+    Tuy nhiên, thường khá khó để tạo ra các vector ngẫu nhiên có hàm trọng lượng xác suất cụ thể, đặc biệt nếu $\mathbf{X}$ là một vector của các biến ngẫu nhiên phụ thuộc.
+    Hơn nữa, hàm trọng lượng xác suất đôi khi được cho dưới dạng $P \lbrace \mathbf{X}=\mathbf{x}_j \rbrace = C b_j, j \geq 1$ với $b_j$ được chỉ định, nhưng $C$ phải được tính và trong nhiều ứng dụng việc tính giá trị này để cộng $b_j$ là không khả thi để xác định $C$.
+    Nhưng rất may, có cách khác là sử dụng mô phỏng để ước lượng $\theta$ trong những trường hợp này.
+    Bằng cách tạo ra một dãy , không là các vector độc lập nhưng các trạng thái liền kề nhau của một xích Markov với các trạng thái là vector $\mathbf{X}_1, \mathbf{X}_2, \dots$ mà phân bố dừng là $P \lbrace \mathbf{X} = \mathbf{x}_j \rbrace, j \geq 1$.
+    Nếu có thể thực hiện được thì theo mệnh đề \ref{md:4.7}, phương trình \ref{eq:4.30} vẫn đúng, nghĩa là khi đó chúng ta có thể sử dụng $\sum_{i=1}^n h(\mathbf{X}_i)/n$ là một bộ ước lượng của $\theta$.
+
+    Bây giờ ta chỉ ra bằng cách nào tạo ra một xích Markov với phân bố dừng bất kỳ có thể chỉ được chỉ định lên đến một hằng số nhân.
+    Đặt $b(j), j=1, 2, \dots$ là các số thực sao cho tổng $B= \sum_{j=1}^{\infty} b(j)$ là hữu hạn.
+    Cách này được gọi là \textit{thuật toán Hastings-Metropolis}, có thể được sử dụng để tạo ra xích Markov khả đảo thời gian mà phân bố dừng là:
+
+    \begin{equation*}
+        \pi (j) = b(j) / B, j = 1, 2, \dots
+    \end{equation*}
+
+    Để bắt đầu, đặt $\mathbf{Q}$ là bất kỳ một ma trận xác suất chuyển trạng thái không tối giản được chỉ định trước trên các số nguyên, với $q(i, j)$ biểu diễn phần tử hàng $i$ cột $j$ của $Q$.
+    Bây giờ ta định nghĩa một xích Markov $\lbrace X_n, n \geq 0 \rbrace$ theo cách sau.
+    Khi $X_n = i$, ta tạo ra một biến ngẫu nhiên $Y$ sao cho $P \lbrace Y = j \rbrace = q(i, j), j=1, 2, \dots$. Nếu $Y=j$ thì đặt $X_{n+1}$ bằng $j$ với xác suất $\alpha(i, j)$ và đặt nó bằng $i$ với xác suất $1 - \alpha(i, j)$.
+    Theo các điều kiện này, dễ dàng để thấy dãy các trạng thái tạo nên một xích Markov với xác suất chuyển trạng thái $P_{ij}$ được tính bằng công thức:
+
+    \begin{equation*}
+        \begin{aligned}
+            P_{ij} &= q(i, j)\alpha(i, j) \text{ nếu } j \neq i \\
+            P_{ii} &= q(i, i) + \sum_{k \neq i} q(i, k)(1 - \alpha(i, k))
+        \end{aligned}
+    \end{equation*}
+
 \end{document}
