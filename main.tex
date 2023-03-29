@@ -4,6 +4,7 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsthm}
+\usepackage{mathrsfs}
 \usepackage{thmtools}
 \usepackage{mathtools}
 \usepackage{graphicx}
@@ -1080,4 +1081,191 @@
         \end{aligned}
     \end{equation*}
 
+    Xích Markov này sẽ khả đảo thời gian và có phân bố dừng $\pi_j$ nếu:
+
+    \begin{equation*}
+        \pi (i) P_{i, j} = \pi_j P_{j, i} \text{ với mọi } j \neq i
+    \end{equation*}
+
+    tương đương với:
+
+    \begin{equation} \label{eq:4.31}
+        \pi (i) q(i, j) \alpha(i, j) = \pi(j) q(j, i) \alpha(j, i)
+    \end{equation}
+
+    Nhưng nếu ta lấy $\pi_j = b(j)/B$ và đặt:
+
+    \begin{equation} \label{eq:4.32}
+        \alpha(i, j) = \min \Bigg( \dfrac{\pi(j)q(j, i)}{\pi(i) q(i, j)}, 1 \Bigg)
+    \end{equation}
+
+    Khi đó công thức \ref{eq:4.31} dễ dàng thỏa mãn. Nếu:
+
+    \begin{equation*}
+        \alpha(i, j) = \min \Bigg ( \dfrac{\pi(j)q(j, i)}{\pi(i) q(i, j)}, 1 \Bigg)
+    \end{equation*}
+
+    cho ta thấy giá trị của $B$ không cần thiết để tạo ra một xích Markov, bởi vì chỉ cần giá trị $b(j)$ là đủ.
+    Vậy nên hầu hết các trường hợp $\pi(j), j \geq 1$ không chỉ là phân bố dừng mà còn là phân bố giới hạn.
+
+    \begin{vd}
+        Giả sử ta muốn tạo ra một phần tử phân bố đều trong $\mathscr{S}$ là tập hợp tất cả các hoán vị $(x_1, \dots, x_n)$ của các số $(1, \dots, n)$ sao cho $\sum_{j=1}^n j x_j > a$ với $a$ là một số cho trước.
+        Để tận dụng thuật toán Hastings - Metropolis ta cần định nghĩa một ma trận xác suất chuyển trạng thái của xích Markov không tối giản trong không gian trạng thái $\mathscr{S}$.
+        Để thực hiện việc này, đầu tiên ta định nghĩa khái niệm các phần tử "láng giềng" của $\mathscr{S}$, và sau đó xây dựng một đồ thị mà tập các đỉnh là $\mathscr{S}$.
+        Ta bắt đầu bằng đặt một cung giữa từng cặp các phần tử trong $\mathscr{S}$ mà hai hoán vị bất kỳ trong $\mathscr{S}$ được xem là các láng giềng nếu một hoán vị là kết quả từ một phép đổi chỗ của hai trong số các vị trí trong hoán vị.
+        Ví dụ, $(1, 2, 3, 4)$ và $(1, 2, 4, 3)$ là các láng giềng nhưng $(1, 2, 3, 4)$ và $(1, 3, 4, 2)$ không phải láng giềng,
+        
+    \end{vd}
+
+    \begin{loigiai}
+        Bây giờ, ta định nghĩa một hàm xác suất chuyển trạng thái $q$ như sau: Với $N(s)$ định nghĩa là tập các láng giềng của $\mathbf{s}$ và $\lvert N (\mathbf{s}) \rvert$ bằng với số phần tử trong tập $N(\mathbf{s})$, ta đặt:
+        
+        \begin{equation*}
+            q(\mathbf{s}, \mathbf{t}) = \dfrac{1}{\lvert N (\mathbf{s}) \rvert} \text{ nếu } t \in N(\mathbf{s})
+        \end{equation*}
+
+        Trạng thái ứng viên tiếp theo từ trạng thái $\mathbf{s}$ là một trong những trạng thái là láng giềng của $\mathbf{s}$.
+        Vì phân bố giới hạn mong muốn của xích Markov là $\pi (\mathbf{s})=C$, kéo theo $\pi(\mathbf{s})=\pi(\mathbf{t})$ và vì vậy:
+
+        \begin{equation*}
+            \alpha (\mathbf{s}, \mathbf{t}) = \min(\lvert N(\mathbf{s}) \vert/ \lvert N (\mathbf{t}) \rvert, 1)
+        \end{equation*}
+
+        Nếu như trạng thái hiện tại của xích Markov là trạng thái $\mathbf{s}$ khi đó một trong số những láng giềng của trạng thái này được chọn ngẫu nhiên, giả sử là trạng thái $\mathbf{t}$.
+        Nếu $\mathbf{t}$ có ít láng giềng hơn trạng thái $\mathbf{s}$ (trong lý thuyết đồ thị, bậc của đỉnh $\mathbf{t}$ nhỏ hơn bậc của đỉnh $\mathbf{s}$) khi đó trạng thái tiếp theo là $\mathbf{t}$.
+        Nếu không một số ngẫu nhiên $U$ (0, 1) được sinh ra và trạng thái tiếp theo là $\mathbf{t}$ nếu $U < \lvert N(\mathbf{s}) \rvert / \lvert \mathbf{t} \rvert$ nếu không thì $\mathbf{s}$ là trạng thái tiếp theo.
+        Phân bố giới hạn của xích Markov này là $\pi(\mathbf{s})=1/\lvert \mathscr{S} \rvert$ với $\lvert \mathscr{S} \rvert$ là số hoán vị (chưa biết) của $\mathscr{S}$.
+
+    \end{loigiai}
+
+    Phiên bản hay được sử dụng nhất của thuật toán Hastings - Metropolis là \textit{bộ lấy mẫu Gibb}.
+    Đặt $\mathbf{X}=(X_1, \dots, X_n)$ là một vector ngẫu nhiên rời rạc với hàm trọng lượng xác suất $p(\mathbf{x})$ được chỉ định tối đa lên tới một hằng số nhân.
+    Giả sử ta muốn tạo ra một vector ngẫu nhiên mà phân phối của $X$ đã biết.
+    Ta muốn tạo ra một vector ngẫu nhiên có hàm trọng lượng:
+
+    \begin{equation*}
+        p(\mathbf{x}) = C g(\mathbf{x})
+    \end{equation*}
+
+    với $g(\mathbf{x})$ đã biết nhưng $C$ thì chưa. Việc sử dụng bộ lấy mẫu Gibb giả định với bất kỳ $i$ và giá trị $x_j, j \neq i$, ta có thể tạo ra một biến ngẫu nhiên $X$ có hàm trọng lượng xác suất:
+
+    \begin{equation*}
+        P \lbrace X = x \rbrace = P \lbrace X_i = x \vert X_j = x_j, j \neq i \rbrace
+    \end{equation*}
+
+    Cách lấy mẫu này hoạt động bằng cách sử dụng thuật toán Hastings - Metropolis trên một xích Markov với trạng thái $\mathbf{x}=(x_1, \dots, x_n)$ với một xác suất chuyển trạng thái định nghĩa như sau.
+    Bất kỳ khi nào trạng thái hiện tại là $\mathbf{x}$, một tọa độ bất kỳ thuộc $1, \dots, n$ được chọn.
+    Nếu tọa độ $i$ được chọn, khi đó biến ngẫu nhiên $X$ với hàm trọng lượng xác suất $P \lbrace X = x \rbrace = P \lbrace X_i = x \vert X_j = x_j, j \neq i \rbrace$ được tại ra.
+    Nếu $X=x$, khi đó trạng thái $\mathbf{y}=(x_1, \dots, x_{i-1}, x, x_{i+1}, \dots, x_n)$ được xem là ứng cử viên cho trạng thái tiếp theo.
+    Nói cách khác, với $\mathbf{x}$ và $\mathbf{y}$ được cho, bộ lấy mẫu Gibbs sử dụng thuật toán Hastings - Metropolis với:
+
+    \begin{equation*}
+        q(\mathbf{x}, \mathbf{y}) = \dfrac{1}{n} P \lbrace X_i = x \vert X_j = x_j, j \neq i \rbrace = \dfrac{p(\mathbf{y})}{n P \lbrace X_j = x_j, j \neq i}
+    \end{equation*}
+
+    Vì ta muốn hàm trọng lượng giới hạn là $p$, từ công thức \ref{eq:4.32} vector $\mathbf{y}$ sau đó được chấp nhận là trạng thái mới với xác suất:
+
+    \begin{equation*}
+        \begin{aligned}
+            \alpha (\mathbf{x}, \mathbf{y}) &= \min \Bigg ( \dfrac{p(\mathbf{y}) q(\mathbf{y}, \mathbf{x})}{p(\mathbf{x}, q(\mathbf{x}, \mathbf{y}))}, 1 \Bigg ) \\
+            &= \min \Bigg ( \dfrac{p(\mathbf{y})p(\mathbf{x})}{p(\mathbf{x})p(\mathbf{y})}, 1 \Bigg) \\
+            &= 1
+        \end{aligned}
+    \end{equation*}
+    Vì vậy, khi sử dụng bộ lấy mẫu Gibbs, các trạng thái ứng viên luôn được chấp nhận là trạng thái tiếp theo của xích.
+
+    \begin{vd} \label{vd:4.40}
+        Giả sử ta muốn tạo ra $n$ điểm phân bố đều trong hình tròn bán kính $1$ có tâm tại gốc tọa độ, với điều kiện không có hai điểm nào nằm cách một điểm khác với khoảng cách $d$.
+        khi xác suất của sự kiện điều kiện này nhỏ.
+        Ta có thể thực hiện sử dụng bộ lấy mẫu Gibbs như sau.
+        Bắt đầu với $n$ điểm bất kỳ $\mathbf{x}_1, \dots, \mathbf{x}_n$ trong hình tròn có thuộc tính không có hai điểm trong số chúng có khoảng cách $d$ đến điểm khác, sau đó tại ra giá trị $I$ có thể là bất kỳ giá trị nào trong các giá trị $1, 2, \dots, n$.
+        Sau đó ta liên tục tạo ra các điểm ngẫu nhiên trong hình tròn đến khi thu được một điểm không nằm có khoảng cách nhỏ hơn $d$ với bất kỳ đỉnh nào trong $n-1$ khác ngoại trừ $\mathbf{x}_I$.
+        Tại điểm này, thay thế $\mathbf{x}_I$ bằng điểm vừa được tạo ra và lặp lại quá trình trên.
+        Sau khi một lượng lớn vòng lặp của thuật toán này, tập $n$ điểm sẽ xấp xỉ có phân bố mong muốn.
+    \end{vd}
+
+    \begin{vd} \label{vd:4.41}
+        Ta đặt $X_i, i = 1, \dots, n$ là các biến ngẫu nhiên độc lập tuân theo phân bố mũ với tốc độ tương ứng $\lambda_i, i = 1, \dots, n$.
+        Ta đặt $S=\sum_{i=1}^n X_i$ và giả sử ta muốn sinh ra một vector ngẫu nhiên $\mathbf{X} = (X_1, \dots, X_n)$ khi có điều kiện là $S > c$ với $c$ là một hằng số dương lớn.
+    \end{vd}
+
+    \begin{loigiai}
+        Ta muốn tạo ra giá trị của một vector ngẫu nhiên mà hàm mật độ là:
+
+        \begin{equation*}
+            f(x_1, \dots, x_n) = \dfrac{1}{P \lbrace S > c \rbrace} \prod_{i=1}^n \lambda_i e^{-\lambda_i x_i}, x_i \geq 0, \sum_{i=1}^n x_i > c
+        \end{equation*}
+
+        Điều này dễ thực hiện bằng cách bắt đầu với một vector $\mathbf{x}=(x_1, \dots, x_n)$ thảo mãn $x_i > 0, i=1, \dots, n, \sum_{i=1}^n x_i > c$.
+        Sau đó ta tạo ra một biến ngẫu nhiên $I$ là bất kỳ giá trị nào thuộc $1, \dots, n$.
+        Tiếp theo ta tạo ra một biến ngẫu nhiên tuân theo phân bố mũ $X$ với tốc độ $\lambda_I$ có điều kiện trên sự kiện $X + \sum_{j \neq I} x_j > c$.
+        Bước sau, tạo ra giá trị của biến ngẫu nhiên tuân theo phân bố mũ cho biết nó vượt qua $c - \sum_{j \neq I} x_j$ được thực hiện dễ dàng bằng cách biết rằng một biến ngẫu nhiên tuân theo phân bố mũ với điều kiện lớn hơn một hằng số được phân bố là một hằng số cộng với một biến ngẫu nhiên theo phân bố mũ.
+        Do đó, để thu được $X$, đầu tiên ta tạo ra một biến ngẫu nhiên theo phân bố mũ $Y$ với tốc độ $\lambda_I$ và ta đặt:\
+
+        \begin{equation*}
+            X = Y + \Bigg ( c - \sum_{j \neq I} x_j \Bigg)^+
+        \end{equation*}
+
+        với $a^+ = \max(a, 0)$
+
+        Giá trị của $x_I$ nên được đặt lại là $X$ khi một bước lặp mới của thuật toán bắt đầu.
+    \end{loigiai}
+
+    \textbf{Lưu ý} Có thể thấy ví dụ \ref{vd:4.40} và \ref{vd:4.41} mặc dù lý thuyết cho bộ lấy mẫu Gibbs được biểu diễn giới giả định phân bố được tạo ra là rời rạc nhưng nó vẫn đúng khi phân bố là liên tục.
+    
+    \section{Quá trình quyết định Markov}
+
+    Ta xét một quá trình được quan sát tại các điểm rời rạc theo thời gian có thể là một trong $M$ trạng thái có thể, ta đánh số $1, 2, \dots, M$.
+    Sau khi quan sát trạng thái của quá trình, một hành động phải được chọn, ta đặt là $A$ và giả định là hữu hạn các lựa chọn, ký hiệu tập tất cả các hành động có thể.
+
+    Nếu quá trình trong thạng thái $i$ tại thời điểm $n$ và hành động $a$ được chọn, trạng thái tiếp theo của hệ thống được xác định tuân theo xác suất chuyển trạng thái $P_{ij}(a)$.
+    Nếu ta đặt $X_n$ ký hiệu là trạng thái của quá trình tại thời điểm $n$ và $x_n$ là hành động được chọn tại thời điểm $n$, khi đó tương đương với phát biểu sau:
+
+    \begin{equation*}
+        P \lbrace X_{n+1} = j \vert X_0, a_0, X_1, a_1, \dots, X_n = i, a_n = a \rbrace = P_{ij}(a)
+    \end{equation*}
+
+    Vì vậy, xác suất chuyển trạng thái là các hàm chỉ phụ thuộc vào trạng thái hiện tại và hành động kế tiếp.
+
+    Bằng một chiến lược, ta xác định quy tắc cho việc chọn hành động.
+    Ta sẽ giới hạn các chiến lược trong dạng mà các hành động mà bất kỳ lúc nào cũng chỉ phụ thuộc vào trạng thái của quá trình tại thời điểm đó (mà không phụ thuộc vào bất kỳ thông tin nào khác liên quan đến các trạng thái và hành động trước đó).T
+    uy nhiên, ta sẽ cho phép chiến lược được "ngẫu nhiên hóa" trong đó các chỉ dẫn có thể là chọn các hành động bằng một phân bố xác suất.
+    Hay nói cách khác, một chiến lược $\boldsymbol{\beta}$ là một tập các số $\boldsymbol{\beta}=\lbrace \beta_i (a), a \in A, i = 1, \dots, M \rbrace$ với lý giải rằng nếu quá trình ở trạng thái $i$ thì hành động $a$ được chọn với xác suất $\beta_i (a)$.
+    Tất nhiên ta cần có:
+
+    \begin{equation*}
+        \begin{aligned}
+            0 \leq &\beta_i (a) \leq 1, \text{ với mọi } i, a \\
+            \sum_{a} &\beta_i(a) = 1, \text{ với mọi } i
+        \end{aligned}
+    \end{equation*}
+
+    Với một chiến lược $\boldsymbol{\beta}$ bất kỳ đã cho, dãy các trạng thái $\lbrace X_n, n = 0, 1, \dots \rbrace$ tạo thành một xích Markov với xác suất chuyển tiếp $P_{ij} (\boldsymbol{\beta})$ được cho bởi công thức:
+
+    \begin{equation*}
+        \begin{aligned}
+            P_{ij} (\boldsymbol{\beta}) &= P_{\boldsymbol{\beta}} \lbrace X_{n+1} = j \vert X_n = j \rbrace \\
+            &= \sum_{a} P_{ij}(a)\beta_i (a)
+        \end{aligned}
+    \end{equation*}
+
+    với đẳng thức cuối cùng có được nhờ một hệ đầy đủ các hành động được chọn khi quá trình ở trạng thái $i$.
+    Ta giả định với mọi sự lựa chọn của một chiến lược $\boldsymbol{\beta}$, xích Markov kết quả là ergodic.
+
+    Với một chiến lược $\boldsymbol{\beta}$, ta đặt $\pi_{ia}$ ký hiệu là phân bố giới hạn (hoặc trạng thái ổn định) mà quá trình khi ở trạng thái $i$ sẽ thực hiện hành động $a$ nếu chiến lược $\boldsymbol{\beta}$ được thực thi.
+    Như vậy:
+
+    \begin{equation*}
+        \pi_{ia} = \lim_{n \rightarrow \infty} P_{\boldsymbol{\beta}} \lbrace X_n = i, a_n = 1 \rbrace
+    \end{equation*}
+
+    Vector $\pi = (\pi_{ia})$ phải thỏa mãn:
+
+    \begin{equation}
+        \begin{cases}
+            \pi_{ia} \geq 0 \text{ với mọi } i, a \\
+            \sum_{i} \sum_{a} \pi_{ia} = 1 \\
+            \sum_a \pi_{ja} = \sum_i \sum_a \pi_{ia} P_{ij} (a) \text{ với mọi } j
+        \end{cases}
+    \end{equation}
 \end{document}
