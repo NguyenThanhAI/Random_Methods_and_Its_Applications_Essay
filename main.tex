@@ -1261,11 +1261,225 @@
 
     Vector $\pi = (\pi_{ia})$ phải thỏa mãn:
 
-    \begin{equation}
+    \begin{equation} \label{eq:4.33}
         \begin{cases}
             \pi_{ia} \geq 0 \text{ với mọi } i, a \\
             \sum_{i} \sum_{a} \pi_{ia} = 1 \\
             \sum_a \pi_{ja} = \sum_i \sum_a \pi_{ia} P_{ij} (a) \text{ với mọi } j
         \end{cases}
     \end{equation}
+
+    Phương trình thứ nhất và phương trình thứ hai trong \ref{eq:4.33} hiển nhiên đúng, và phương trình thứ ba là một dạng tương tự của định lý, vế trái của phương trình bằng với xác xuất trạng thái ổn định của trạng thái $j$ và vế bên phải là xác suất trạng thái ổn định của trạng thái $j$ tính theo cách lấy điều kiện trên trạng thái và hành động được chọn ở thời điểm trước.
+
+    Vì vậy với bất kỳ chiến lược $\boldsymbol{\beta}$, có một vector $\boldsymbol{\pi}=(\pi_{ia})$ thỏa mãn hệ phương trình trên và với giải thích $\pi_{ia}$ bằng với xác suất trạng thái ổn định của trạng thái $i$ và hành động được chọn $a$ khi chiến lược $\boldsymbol{\beta}$ được sử dụng.
+    Hơn nữa, ta nhận ra điều ngược lại cũng dúng.
+    Cụ thể, đối với vector bất kỳ $\boldsymbol{\pi}=(\pi_{ia})$ thỏa mãn hệ phương trình trên, tồn tại một chiến lược $\boldsymbol{\beta}$ nếu $\boldsymbol{\beta}$ được sử dụng, xác suất trạng thái ổn định khi ở trạng thái $i$ và chọn hành động $a$ bằng $\pi_{ia}$.
+    Để kiểm chứng điều này, ta giả sử $\boldsymbol{\pi} = (\pi_{ia})$ là một vector thỏa mãn hệ phương trình \ref{eq:4.33}.
+    Ta đặt chiến lược $\boldsymbol{\beta}=(\beta_i(a))$:
+
+    \begin{equation*}
+        \begin{aligned}
+            \beta_i (a) &= P \lbrace \boldsymbol{\beta} \text{ chọn } a \vert \text{ trạng thái là } i \rbrace \\
+            &= \dfrac{\pi_{ia}}{\sum_a \pi_{ia}}
+        \end{aligned}
+    \end{equation*}
+
+    Bây giờ ta đặt $P_{ia}$ biểu diễn phân bố giới hạn của quá trình ở trạng thái $i$ và chọn hành động $a$ khi chiến lược $\boldsymbol{\beta}$ được sử dụng.
+    Ta cần chỉ ra rằng $P_{ia}=\pi_{ia}$.
+    Để làm điều này ta cần chú ý $\lbrace P_{ia}, i =1, \dots, M, a \in A \rbrace$ là phân bố giới hạn của xích Markov hai chiều $\lbrace (X_n, a_n), n \geq 0 \rbrace$.
+    Vì vậy, $P_{ia}$ là nghiệm duy nhất của:
+
+    \begin{equation*}
+        \begin{cases}
+            P_{ia} \geq 0 \\
+            \sum_i \sum_a P_{ia} = 1 \\
+            P_{ja} = \sum_i \sum_{a^{\prime}}P_{ia^{\prime}}P_{ij}(a^{\prime}) \beta_j(a)
+        \end{cases}
+    \end{equation*}
+
+    công thức thứ ba tính từ công thức:
+
+    \begin{equation*}
+        P \lbrace X_{n+1} = j, a_{n+1}=a \vert X_n = i, a_n = a^{\prime} \rbrace = P_{ij}(a^{\prime}) \beta_j(a)
+    \end{equation*}
+
+    Bởi vì:
+
+    \begin{equation*}
+        \beta_j (a) = \dfrac{\pi_{ja}}{\sum_a \pi_{ja}}
+    \end{equation*}
+
+    Ta nhận thấy rằng ($P_{ia}$) là nghiệm duy nhất của:
+
+    \begin{equation*}
+        \begin{cases}
+            P_{ia} \geq 0 \\
+            \sum_i \sum_a P_{ia} = 1 \\
+            P_{ja} = \sum_i \sum_{a^{\prime}} P_{ia^{\prime}} P_{ij}(a^{\prime}) \dfrac{\pi_{ja}}{\sum_a \pi_{ja}}
+        \end{cases}
+    \end{equation*}
+    Vì vậy, để chỉ ra $P_{ia} = \pi_{ia}$, ta cần chỉ ra:
+
+    \begin{equation*}
+        \begin{cases}
+            \pi_{ia} \geq 0 \\
+            \sum_i \sum_a \pi_{ia} = 1 \\
+            \pi_{ja} = \sum_i \sum_{a^{\prime}} \pi_{ia^{\prime}} P_{ij} (a^{\prime}) \dfrac{\pi_{ja}}{\sum_a \pi_{ja}}
+        \end{cases}
+    \end{equation*}
+
+    Hai phương trình đầu tiên suy ra từ hai phương trình đầu tiên của \ref{eq:4.33} và phương trình thứ ba tương đương với:
+
+    \begin{equation*}
+        \sum_a \pi_{ja} = \sum_i \sum_{a^{\prime}} \pi_{ia^{\prime}} P_{ij}(a^{\prime})
+    \end{equation*}
+
+    được dẫn ra từ phương trình thứ ba của \ref{eq:4.33}.
+
+    Vì vậy ta đã chỉ ra rằng vector $\boldsymbol{\beta}=(\pi_{ia})$ thỏa mãn cả phương trình ở \ref{eq:4.33} khi và chỉ khi tồn tại một chiến lược $\boldsymbol{\beta}$ mà $\pi_{ia}$ bằng với xác suất trạng thái ổn định ở trạng thái $i$ và chọn hành động $a$ khi $\boldsymbol{\beta}$ được sử dụng.
+    Thực tế chiến lược $\boldsymbol{\beta}$ được định nghĩa bằng $\boldsymbol{\beta}_i (a) = \pi_{ia} / \sum_a \pi_{ia}$.
+
+    Các công thưc streen khá quan trọng trong việc xác định chiến lược tối ưu.
+    Ví dụ, giả sử một phần thưởng $R(i, a)$ thu được khi hành động $a$ được chọn ở trạng thái $i$.
+    Vì $R(X_i, a_i)$ biểu diễn phường thưởng thu được ở thời điểm $i$, phần thưởng trung bình kỳ vọng trên một đơn vị thời gian khi sử dụng chiến lược $\boldsymbol{\beta}$ được biểu diễn bằng:
+
+    \begin{equation*}
+        \text{phần thưởng trung bình kỳ vọng khi sử dụng chiến lược } \boldsymbol{\beta} = \lim_{n \rightarrow \infty} E_{\boldsymbol{\beta}} \Bigg \lbrack \dfrac{\sum_{i=1}^n R(X_i, a_i)}{n} \Bigg \rbrack
+    \end{equation*}
+
+    Nếu $\pi_{ia}$ ký hiểu xác suất trạng thái ổn định của trạng thái $i$ và chọn trạng thái $a$, phần thưởng kỳ vọng giới hạn tại thời điểm $n$:
+
+    \begin{equation*}
+        \lim_{n \rightarrow \infty} \lbrack R(X_n, a_n) \rbrack = \sum_i \sum_a \pi_{ia} R(i, a)
+    \end{equation*}
+
+    Ta có thể hiểu rằng:
+    \begin{equation*}
+        \text{phần thưởng trung bình kỳ vọng khi sử dụng chiến lược } \boldsymbol{\beta} = \sum_i \sum_a \pi_{ia} R(i, a)
+    \end{equation*}
+
+    Vì vậy, bài toán xác định chiến lược làm cực đại hóa phần thưởng trung bình kỳ vọng là:
+
+    \begin{equation} \label{eq:4.34}
+        \begin{aligned}
+            \max_{\pi=(\pi_{ia})} &\sum_i \sum_a \pi_{ia} R(i, a) \\
+            \text{ subject to } &\begin{cases} 
+                                    \pi_{ia} \geq 0 \thickspace \forall i, a \\
+                                    \sum_i \sum_a \pi_{ia} = 1 \\
+                                    \sum_a \pi_{ja} = \sum_i \sum_a \pi_{ia} P_{ij} (a) \thickspace \forall j
+                                \end{cases} 
+        \end{aligned}
+    \end{equation}
+
+    Tuy nhiên bài toán cực đại hóa ở phía trên là một trường hợp đặc biệt của bài toán \textit{quy hoạch tuyến tính} và có thể được giải nhờ thuật toán quy hoạch tuyến tính tiêu chuẩn là \textit{thuật toán simplex}.
+    Nếu $\boldsymbol{\beta}^* = (\pi_{ia}^*)$ cực đại hóa bài toán trên, chiến lượng tối ưu $\boldsymbol{\beta}^*$ là:
+
+    \begin{equation*}
+        \beta_i^*(a) = \dfrac{\pi_{ia}^*}{\sum_a \pi_{ia}^*}
+    \end{equation*}
+
+    \textbf{Lưu ý}
+
+    \begin{enumerate}[label=(\roman*)]
+        \item Ta có thể chỉ ra rằng $\pi^*$ làm cực đại hóa công thức \ref{eq:4.34} có đặc điểm với mỗi $i$, $\pi_{ia}^*$ bằng 0 với tất cả và chỉ bằng 1 tại $a$, ý nghĩa rằng chiến lược tối ưu là không ngẫu nhiên. Hành động mà chiến lược tối ưu quy định khi ở trạng thái $i$ là một hàm tất định của $i$.
+        \item Công thức quy hoạch tuyến tính thường có hiệu quả khi có những ràng buộc. Ví dụ, giả định có một ràng buộc về tỷ lệ thời gian của quá trình ở một trạng thái nào đó, ví dụ trạng thái 1. Cụ thể, ta giả sử ta cho phép xem xét chỉ những chiến lược có đặc tính mà quý trình ở trạng thái 1 nhỏ hơn $100 \alpha$ \% của thời gian. Để xác định chiến lược tối ưu đối với yêu cầu này, ta cộng thêm vào hàm mục tiêu của bài toán quy hoạch tuyến tính ràng buộc:
+        \begin{equation*}
+            \sum_a \pi_{1a} \leq \alpha
+        \end{equation*}
+
+        vì $\sum_a \pi_{1a}$ biểu diễn tỷ lệ thời gian của quá trình ở trạng thái 1.
+    \end{enumerate}
+
+    \section{Xích Markov ẩn}
+
+    Ta xét $\lbrace X_n, n = 1, 2, \dots \rbrace$ là một xích Markov với xác suất chuyển trạng thái $P_{ij}$ và xác suất trạng thái ban đầu $p_i = P \lbrace X_1 = i \rbrace, i \geq 0$.
+    Ta giả sử tồn tại một tập hữu hạn $\mathscr{S}$ các tín hiệu và một tín hiệu từ $\mathscr{S}$ được phát ra tại thời điểm khi xích Markov chuyển sang một trạng thái.
+    Hơn nữa, giả sử khi xích Markov chuyển sang một trạng thái $j$ khi đó tín hiệu phát ra tín hiệu $s$ với xác suất $p(s \vert j), \sum_{s \in \mathscr{S}} p(s \vert j) = 1$ độc lập với các trạng thái và tín hiệu trước đây.
+    Nếu $S_n$ biểu diễn tín hiệu thứ $n$ được phát ra thì:
+
+    \begin{equation*}
+        \begin{aligned}
+            P \lbrace S_1 = s \vert X_1 = j \rbrace &= p(s \vert j) \\
+            P \lbrace S_n = s \vert X_1, S_1, \dots, X_{n-1}, S_{n-1}, X_n = j \rbrace &= p(s \vert j)
+        \end{aligned}
+    \end{equation*}
+
+    Mô hình như trên khi dãy các tín hiệu $S_1, S_2, \dots$ được quan sát khi dãy các trạng thái xích Markov ẩn $X_1, X_2, \dots$ không được quan sát được gọi là mô hình \text{xích Markov ẩn}.
+
+    \begin{vd} \label{vd:4.42}
+        Ta xét một quá trình sản xuất mà trong từng chu kỳ có thể là trạng thái tốt (trạng thái 1) hoặc trạng thái tệ (trạng thái 2).
+        Nếu quá trình ở trong trạng thái 1 thì trong suốt chu kỳ đó độc lập với quá khứ với xác suất 0.9 là trạng thái 1 ở chu kỳ tiếp theo và xác suất 0.1 là trạng thái 2.
+        Khi ở trạng thái 2, quá trình sẽ ở trong trạng thái này mãi mãi.
+        Ta giả sử một sản phẩm được sản xuất tại từng thời điểm và sản phẩm đó được tạo ra khi quá trình ở trạng thái 1 là đạt tiêu chuẩn chất lượng với xác suất là 0.99, từng sản phẩm được tạo ra khi quá trình ở trạng thái 2 đạt tiêu chuẩn chất lượng với xác suất 0.96.    
+    \end{vd}
+
+    \begin{loigiai}
+        Với sản phẩm chấp nhận được hoặc không chấp nhận được, các sản phẩm nối tiếp nhau được sản xuất sẽ được quan sát, nhưng trạng thái của quá trình lại không quan sát được,
+        vì vậy đây chính là một mô hình xích Markov ẩn.
+        Tín hiệu chính là chất lượng của sản phẩm được sản xuất, có giá trị a hoặc phụ thuộc vào sản phẩm có đạt chất lượng hay không.
+        Phân bố tín hiệu là:
+
+        \begin{equation*}
+            \begin{aligned}
+                &p(u \vert 1) = 0.01, p(a \vert 1)=0.99, \\ &p(u \vert 2) = 0.04, p(a \vert 2) = 0.96
+            \end{aligned}
+        \end{equation*}
+
+        và xác suất chuyển trạng thái của xích Markov ẩn là:
+
+        \begin{equation*}
+            P_{1, 1} = 0.9 = 1- P_{1, 2}, P_{2, 2} = 1
+        \end{equation*}
+    \end{loigiai}
+
+    Mặc dù $\lbrace S_n, n \geq 1 \rbrace$ không là một xích Markov, nhưng ta cần lưu ý rằng, lấy điều kiện trên trạng thái hiện tại $X_n$, dãy $S_n, X_{n+1}, S_{n+1}, \dots$ của các trạng thái và tín hiệu ở tương lai là độc lập với dãy $X_1, S_1, \dots, X_{n-1}, S_{n-1}$ là trạng thái và tín hiệu ở quá khứ.
+
+    Ta đặt $\mathbf{S}^n=(S_1, S_2, \dots, S_n)$ là vector ngẫu nhiên của $n$ tín hiệu ban đầu.
+    Với một dãy các tín hiệu cố định $s_1, s_2, \dots, s_n$, đặt $\mathbf{s}_k = (s_1, \dots, s_k), k \leq n$.
+    Để bắt đầu, ta xác định xác suất có điều kiện của xích Markov tại thời điểm $n$ khi được cho trước $\mathbf{S}^n=\mathbf{s}_n$.
+    Để thu được xác suất có điều kiện này, ta đặt:
+
+    \begin{equation*}
+        F_n(j) = P \lbrace \mathbf{S}^n = \mathbf{s}_n, X_n = j \rbrace
+    \end{equation*}
+
+    và chú ý rằng:
+
+    \begin{equation*}
+        \begin{aligned}
+            P \lbrace X_n = j \vert \mathbf{S}^n = \mathbf{s}_n \rbrace &= \dfrac{P \lbrace \mathbf{S}^n = \mathbf{s}_n, X_n = j}{P \lbrace \mathbf{S}^n = \mathbf{s}_n} \\
+            &= \dfrac{F_n(j)}{\sum_i F_n(i)}
+        \end{aligned}    
+    \end{equation*}
+
+    Bây giờ ta có:
+
+    \begin{equation} \label{eq:4.35}
+        \begin{aligned}
+            F_n(j) & =P \lbrace \mathbf{S}^{n-1}=\mathbf{s}_{n-1}, S_n=s_n, X_n=j \rbrace \\
+            & =\sum_i P \lbrace \mathbf{S}^{n-1}=\mathbf{s}_{n-1}, X_{n-1}=i, X_n=j, S_n=s_n \rbrace \\
+            & =\sum_i F_{n-1}(i) P \lbrace X_n=j, S_n=s_n \vert \mathbf{S}^{n-1}=\mathbf{s}_{n-1}, X_{n-1}=i \rbrace \\
+            & =\sum_i F_{n-1}(i) P \lbrace X_n=j, S_n=s_n \vert X_{n-1}=i \rbrace \\
+            & =\sum_i F_{n-1}(i) P_{i, j} p(s_n \vert j) \\
+            & =p(s_n \vert j) \sum_i F_{n-1}(i) P_{i, j}
+            \end{aligned}
+    \end{equation}
+
+    với công thức trên suy ra từ công thức:
+
+    \begin{equation*}
+        \begin{aligned}
+            P \lbrace X_n = j, S_n = s_n \vert X_{n-1} = i \rbrace &= P \lbrace X_n = j \vert X_{n-1} = i \rbrace \times P \lbrace S_n = s_n \vert X_n = j, X_{n-1} = i \rbrace \\
+            &= P_{i, j} P \lbrace S_n = s_n \vert X_n = j \rbrace \\
+            &= P_{i, j} p (s_n \vert j)
+        \end{aligned}        
+    \end{equation*}
+
+    Bắt đầu với:
+
+    \begin{equation*}
+        F_1(i) = P \lbrace X_1 = i, S_1 = s_1 \rbrace = p_i p(s_1 \vert i)
+    \end{equation*}
+
+    Ta có thể sử dụng công thức \ref{eq:4.35} một cách đệ quy để xác định các hàm $F_2(i), F_3(i), \dots$ lên đến $F_n(i)$
 \end{document}
