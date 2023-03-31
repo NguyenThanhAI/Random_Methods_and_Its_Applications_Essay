@@ -1481,5 +1481,214 @@
         F_1(i) = P \lbrace X_1 = i, S_1 = s_1 \rbrace = p_i p(s_1 \vert i)
     \end{equation*}
 
-    Ta có thể sử dụng công thức \ref{eq:4.35} một cách đệ quy để xác định các hàm $F_2(i), F_3(i), \dots$ lên đến $F_n(i)$
+    Ta có thể sử dụng công thức \ref{eq:4.35} một cách đệ quy để xác định các hàm $F_2(i), F_3(i), \dots$ lên đến $F_n(i)$.
+
+    \begin{vd}
+        Giả sử ở trong ví dụ \ref{vd:4.42} xác suất $P \lbrace X_1 = 1 \rbrace = 0.8$.
+        Cho biết ba sản phẩm được sản xuất liên tiếp là $a, u, a$
+
+        \begin{enumerate}[label=(\alph*)]
+            \item Xác suất để quá trình tạo ra ba sản phẩm như trên biết rằng quá trình ở trạng thái tốt?
+            \item Xác suất để $X_4$ bằng 1?
+            \item Xác suất để sản phẩm tiếp theo được sản xuất là sản phẩm đạt tiêu chuẩn chất lượng?
+        \end{enumerate}
+    \end{vd}
+
+    \begin{loigiai}
+        Với $\mathbf{s}_3=(a, u, a)$, ta có:
+
+        \begin{equation*}
+            \begin{aligned}
+                F_1(1) &= (0.8)(0.99) = 0.792 \\
+                F_1(2) &= (0.2)(0.96) = 0.192 \\
+                F_2(1) &= 0.01\lbrack 0.792(0.9) + 0.192(0) \rbrack = 0.007128 \\
+                F_2(2) &= 0.04 \lbrack 0.792(0.1) + 0.192(1) \rbrack = 0.010848 \\
+                F_3(1) &= 0.99 \lbrack (0.007128)(0.9) \rbrack \approx 0.006531 \\
+                F_3(2) &= 0.96 \lbrack (0.007128)(0.1) + 0.010848 \rbrack \approx 0.011098
+            \end{aligned}
+        \end{equation*}
+
+        Vì vậy, câu trả lời của câu a là:
+
+        \begin{equation*}
+            P \lbrace X_3 = 1 \vert \mathbf{s}_3 \rbrace \approx \dfrac{0.006351}{0.006351 + 0.011098} \approx 0.364
+        \end{equation*}
+
+        Để tính $P \lbrace X_4 \vert \mathbf{s}_3$ lấy điều kiện trên $X_3$ ta thu được:
+
+        \begin{equation*}
+            \begin{aligned}
+                P \lbrace X_4 \vert \mathbf{s}_3 &= P \lbrace X_4 = 1 \vert X_3 = 1, \mathbf{s}_3 \rbrace P \lbrace X_3 = 1 \vert \mathbf{s}_3 \rbrace + P \lbrace X_4 \vert X_3 = 2, \mathbf{s}_3 \rbrace P \lbrace X_3 = 2 \vert \mathbf{s}_3 \rbrace \\
+                &= P \lbrace X_4 = 1 \vert X_3 = 1, \mathbf{s}_3 \rbrace (0.364) + P \lbrace X_4=1 \vert X_3 = 2, \mathbf{s}_3 \rbrace (0.636) \\
+                &= 0.364 P_{11} + 0.636 P_{21} \\
+                &= 0.3276
+            \end{aligned}
+        \end{equation*}
+
+        Để tính $P \lbrace S_4 = a \vert \mathbf{s}_3$, lấy điều kiện trên $X_4$ ta thu được:
+
+        \begin{equation*}
+            \begin{aligned}
+                P \lbrace S_4 = a \vert \mathbf{s}_3 \rbrace &= P \lbrace S_4 = a \vert X_4 = 1, \mathbf{s}_3 \rbrace P \lbrace X_4 = 1 \vert \mathbf{s}_3 \rbrace + P \lbrace S_4 = a \vert X_4 = 2, \mathbf{s}_3 \rbrace P \lbrace X_4 = 2 \vert \mathbf{s}_3 \rbrace \\
+                &= P \lbrace S_4 = a \vert X_4 = 1 \rbrace (0.3276) + P \lbrace S_4 = a \vert X_4 = 2 \rbrace (1-0.3276) + P \lbrace S_4 = a \vert X_4 = 2 \rbrace (1-0.3276) \\
+                &= (0.99)(0.3276) + (0.96)(0.6724) = 0.9698
+            \end{aligned}
+        \end{equation*}
+    \end{loigiai}
+
+    Để tính $P \lbrace \mathbf{S}^n = \mathbf{s}_n \rbrace$ sử dụng đồng nhất thức $P \lbrace \mathbf{S}^n = \mathbf{s}_n \rbrace = sum_i F_n(i)$ cùng với công thức \ref{eq:4.35}.
+    Nếu có $N$ trạng thái của xích Markov thì cần tính $nN$ đại lượng $F_n (i)$ với từng tính toán cần tính tổng trên $N$ thành phần.
+    Phép tính này có thể so sánh với tính toán đại lượng $P \lbrace \mathbf{S}^n = \mathbf{s}_n \rbrace$ dựa trên điều kiện trên $n$ trạng thái đầu tiên của xích Markov:
+        
+    \begin{equation*}
+        \begin{aligned}
+            P \lbrace \mathbf{S}^n = \mathbf{s}_n \rbrace &= \sum_{i_1, \dots, i_n} P \lbrace \mathbf{S}^n = \mathbf{s}_n \vert X_1 = i_1, \dots, X_n = i_n \rbrace P \lbrace X_1 = i_1, \dots, X_n = i_n \rbrace \\
+            &= \sum_{i_1,\dots, i_n} p (s_1 \vert i_1) \dots p(s_n \vert i_n) p_{i_1} P_{i_1, i_2} P_{i_2, i_3} \dots P_{i_{n-1}, i_n}
+        \end{aligned}
+    \end{equation*}
+
+    Việc sử dụng đồng nhất thức ở trên để tính $P \lbrace \mathbf{S}^n = \mathbf{s}_n \rbrace$ có thể cần tính tổng của $N^n$ thành phần với từng thành phần là tích của $2n$ giá trị cho thấy cách tính này không hợp lý so với cách tiếp cận trước.
+
+    Việc tính toán $P \lbrace \mathbf{S}^n = \mathbf{s}_n \rbrace$ bằng đệ quy xác định các hàm $F_k (i)$ được gọi là cách \textit{tiếp cận xuôi}.
+    Cũng có cách \textit{tiếp cận ngược} dựa trên đại lượng $B_k(i)$ được định nghĩa:
+
+    \begin{equation*}
+        B_k (i) = P \lbrace S_{k+1} = s_{k+1}, \dots, S_n = s_n \vert X_k = i \rbrace
+    \end{equation*}
+
+    Công thức đẹ quy cho $B_k(i)$ thu được bằng cách lấy điều kiện trên $X_{k+1}$:
+
+    \begin{equation} \label{eq:4.36}
+        \begin{aligned}
+            B_k (i) &= \sum_j P \lbrace S_{k+1} = s_{k+1}, \dots, S_n = s_n \vert X_k = i, X_{k+1} = j \rbrace P \lbrace X_{k+1} = j \vert X_k = i \rbrace \\
+            &= \sum_j P \lbrace S_{k+1} = s_{k+1}, \dots, S_n = s_n \vert X_{k+1} = j \rbrace P_{ij} \\
+            &= \sum_j P \lbrace S_{k+1} = s_{k+1} \vert X_{k+1} = j \rbrace \times P \lbrace S_{k+2} = s_{k+2}, \dots, S_n = s_n \vert S_{k+1} = s_{k+1}, X_{k+1} = j \rbrace P_{ij} \\
+            &= \sum_j p(s_{k+1} \vert j) P \lbrace S_{k+2} = s_{k+2, \dots, S_n = s_n \vert X_{k+1} = j} \rbrace P_{ij} \\
+            &= \sum_j p(s_{k+1} \vert j) B_{k+1} (j) P_{ij}
+        \end{aligned}
+    \end{equation}
+
+    Bằng cách bắt đầu với:
+
+    \begin{equation*}
+        \begin{aligned}
+            B_{n-1} (i) &= P \lbrace S_n = s_n \vert X_{n-1} = i \rbrace \\
+            &= \sum_j P_{ij} p (s_n \vert j)
+        \end{aligned}
+    \end{equation*}
+
+    Sau đó ta sử dụng công thức \ref{eq:4.36} để xác định hàm $B_{n-1}(i)$, sau đó $B_{n-3}(i)$ và cứ như vậy đến khi thu được $B_1(i)$.
+    Ta có thể thu được $P \lbrace \mathbf{S}^n = \mathbf{s}_n \rbrace$ bằng công thức:
+
+    \begin{equation*}
+        \begin{aligned}
+            P \lbrace \mathbf{S}^n = \mathbf{s}_n \rbrace &= \sum_i P \lbrace S_1 = s_2, \dots, S_n = s_n \vert X_1 = i \rbrace p_i \\
+            &= \sum_i P \lbrace S_1 = s_2 \vert X_1 = i \rbrace P \lbrace S_2 = s_2, \dots, S_n = s_n \vert S_1 = s_1, X_1 = i \rbrace p_i \\
+            &= \sum_i p(s_1 \vert i) P \lbrace S_2 = s_2, \dots, S_n = s_n \vert X_1 = i \rbrace p_i \\
+            &= \sum_i p(s_1 \vert i) B_1 (i) p_i
+        \end{aligned}
+    \end{equation*}
+
+    Cách tiếp cận khác để thu được $P \lbrace \mathbf{S}^n = \mathbf{s}_n \rbrace$ là kết hợp cả cách tiếp cận xuôi và ngược.
+    Ta giả sử với một $k$ nào đó ta đã tính cả hai hàm $F_k (j)$ và $B_k (j)$. Bởi vì:
+
+    \begin{equation*}
+        \begin{aligned}
+            P \lbrace \mathbf{S}^n = \mathbf{s}_n, X_k = j \rbrace &= P \lbrace \mathbf{S}^k = \mathbf{s}_k, X_k = j \rbrace \times P \lbrace S_{k+1} = s_{k+1}, \dots, S_n = sn \vert \mathbf{S}^k = \mathbf{s}_k, X_k = j \rbrace \\
+            &= P \lbrace \mathbf{S}^k = \mathbf{s}_k, X_k = j \rbrace P \lbrace S_{k+1} = s_{k+1}, \dots, S_n = s_n \vert X_k = j \rbrace \\
+            &= F_k(j) B_k (j)
+        \end{aligned}
+    \end{equation*}
+
+    Ta nhận thấy:
+
+    \begin{equation*}
+        P \lbrace \mathbf{S}^n = \mathbf{s}_n \rbrace = \sum_j F_k(j)B_k(j)
+    \end{equation*}
+
+    Vẻ đẹp của việc sử dụng đồng nhất thức ở phía trên để xác định $P \lbrace \mathbf{S}^n = \mathbf{s}_n \rbrace$ là ta có thể đồng thời tính toán dãy các hàm thuận bắt đầu với $F_1$ cũng như dãy các hàm ngược, bắt đầu tại $B_{n-1}$.
+    Việc tính toán song song có thể dừng khi ta đã tính cả $F_k$ và $B_k$ với một $k$ nào đó.
+
+    \section{Dự đoán trạng thái}
+
+    Ta giả sử $n$ tín hiệu quan sát được đầu tiên là $\mathbf{s}_n = (s_1, \dots, s_n)$ và với dữ liệu thu được này ta muốn dự đoán $n$ trạng thái đầu tiên của xích Markov.
+    Bộ dự đoán tốt nhất phụ thuộc vào việc ta đang cố gắng làm.
+    Nếu mục tiêu của ta là cố gắng cực đại hóa kỳ vọng số các trạng thái dự đoán đúng, khi đó với từng $k=1, \dots, n$ ta cần tính $P \lbrace X_k = j \vert \mathbf{S}^n = \mathbf{s}_n \rbrace$ và ta đặt giá trị $j$ làm cực đại hóa đại lượng này là bộ dự đoán của $X_k$ khi cho dãy các tín hiệu là bộ dự đoán của $X_k$.
+    Để làm điều này, đầu tiên ta cần tính hàm trọng lượng xác suất có điều kiện, dược thực hiện như sau.
+    Với $k \leq n$:
+
+    \begin{equation*}
+        \begin{aligned}
+            P \lbrace X_k = j \vert \mathbf{S}^n = \mathbf{s}_n \rbrace &= \dfrac{P \lbrace \mathbf{S}^n = \mathbf{s}_n, X_k = j \rbrace}{P \lbrace \mathbf{S}^n = \mathbf{s}_n \rbrace} \\
+            &= \dfrac{F_k (j) B_k (j)}{\sum_j F_k (j) B_k (j)}
+        \end{aligned}
+    \end{equation*}
+
+    Ta được cung cấp $\mathbf{S}^n = \mathbf{s}_n$, bộ dự đoán tối ưu của $X_k$ là giá trị của $j$ làm cực đại hóa $F_k(j)B_k(j)$.
+
+    Một biến thể khác của bài toán dự đoán phát sinh khi chúng ta xem dãy các trạng thái là một thực thể duy nhất.
+    Trong tình huống này, mục tiêu của ta là chọn dãy các trạng thái mà xác suất có điều kiện khi cho trước chuỗ tín hiệu là cực đại.
+    Ví dụ, trong xử lý tín hiệu, khi $X_1, \dots, X_n$ có thể là thông điệp thực sự được gửi đi, $S_1, \dots, S_n$ là những gì ta nhận được và mục tiêu sẽ là dự đoán toàn bộ thông điệp nhận được.
+
+    Ta đặt $\mathbf{X}_k = (X_1, \dots, X_k)$ là vector của $k$ trạng thái đầu, bài toán được quan tâm là tìm chuỗi các trạng thái $i_1, \dots, i_n$ làm cực đại hóa $P \lbrace \mathbf{X}_n = (i_1, \dots, i_n) \vert \mathbf{S}^n = \mathbf{s}_n \rbrace$.
+    Bởi vì:
+
+    \begin{equation*}
+        P \lbrace \mathbf{X}_n = (i_1, \dots, i_n) \vert \mathbf{S}^n = \mathbf{s}_n \rbrace = \dfrac{P \lbrace \mathbf{X}_n = (i_1, \dots, i_n), \mathbf{S}^n = \mathbf{s}_n \rbrace}{P \lbrace \mathbf{S}^n = \mathbf{s}_n \rbrace}
+    \end{equation*}
+
+    tương đương với tìm một dãy các trạng thái $i_1, \dots, i_n$ làm cực đại hóa $P \lbrace \mathbf{X}_n = (i_1, \dots, i_n), \mathbf{S}^n = \mathbf{s}_n \rbrace$.
+
+    Để giải bài toán phía trên ta đặt, với $k \leq n$:
+
+    \begin{equation*}
+        V_k(j) = \max_{i_1, \dots, i_{k-1}} = P \lbrace \mathbf{X}_{k-1} = (i_1, \dots, i_{k-1}), X_k = j, \mathbf{S}^k = \mathbf{s}_k \rbrace
+    \end{equation*}
+
+    Để giải $V_k(j)$ một cách đệ quy, ta sử dụng:
+
+    \begin{equation} \label{eq:4.37}
+        \begin{aligned}
+            V_k (j) &= \max_i \max_{i_1, \dots, i_{k-1}} P \lbrace \mathbf{X}_{k-1} = (i_1, \dots, i_{k-1}), X_{k-1} = i, X_k = j, \mathbf{S}^k = \mathbf{s}_k \rbrace \\
+            &= \max_i \max_{i_1, \dots, i_{k-1}} P \lbrace \mathbf{X}_{k-1} = (i_1, \dots, i_{k-1}), X_{k-1} = i, \mathbf{S}^{k-1} = \mathbf{s}_{k-1}, X_k = j, S_k = s_k \rbrace \\
+            &= \max_i \max_{i_1, \dots, i_{k-1}} P \lbrace \mathbf{X}_{k-1} = (i_1, \dots, i_{k-1}), X_{k-1} = i, \mathbf{S}^{k-1} = \mathbf{s}_{k-1} \rbrace \\ &\times P \lbrace X_k = j, S_k = s_k \vert \mathbf{X}_{k-2} = (i_1, \dots, i_{k-2}), X_{k-1} = i, \mathbf{S}^{k-1}=\mathbf{s}_{k-1} \rbrace \\
+            &= \max_i \max_{i_1, \dots, i_{k-1}} P \lbrace \mathbf{X}_{k-1} = (i_1, \dots, i_{k-1}), X_{k-1} = i, \mathbf{S}^{k-1} = \mathbf{s}_{k-1} \rbrace \times P \lbrace X_k = j, S_k = s_k \vert X_{k-1}=i \rbrace \\
+            &= \max_i P \lbrace X_k = j, S_k = s_k \vert X_{k-1} = i \rbrace \times \max_{i_1, \dots, i_{k-2}} P \lbrace \mathbf{X}_{k-2} = (i_1, \dots, i_{k-2}), X_{k-1}=i, \mathbf{S}^{k-1}=\mathbf{s}_{k-1} \rbrace \\
+            &= \max_i P_{ij} p(s_ \vert j) V_{k-1}(i) \\
+            &= p(s_k \vert j) \max_i P_{ij} V_{k-1}(i)
+        \end{aligned}
+    \end{equation}
+
+    Ta bắt đầu với:
+
+    \begin{equation*}
+        V_1(j) = P \lbrace X_1 = j, S_1 = s_1 \rbrace = p_j p(s_1 \vert j)
+    \end{equation*}
+
+    Bây giờ ta sử dụng đồng nhất thức đệ quy ở công thức \ref{eq:4.37} để xác định $V_2(j)$ cho từng $j$, sau đó với $V_3 (j)$ cho từng $j$ và cứ như vậy đến khi $V_n(j)$ cho từng $j$.
+
+    Để thu được dãy trạng thái cực đại, ta đi theo hướng ngược lại.
+    Đặt $j_n$ là giá trị (hoặc giá trị bất kỳ nếu có nhiều hơn một) của $j$ làm cực đại hóa $V_n(j)$.
+    Vì vậy $j_n$ là trạng thái cuối cùng của một dãy trạng thái cực đại.
+    Cũng như vậy, với $k < n$, đặt $i_k(j)$ là giá trị của $i$ làm cực đại $P_{ij}V_k(i)$.
+    Khi đó:
+
+    \begin{equation*}
+        \begin{aligned}
+            \max_{i_1, \dots, i_n} P \lbrace \mathbf{X}_n &= (i_1, \dots, i_n), \mathbf{S}^n = \mathbf{s}_n \rbrace \\
+            &= V_n(j) \\
+            &= V_n (j_n) \\
+            &= \max_{i_1, \dots, i_{n-1}} P \lbrace \mathbf{X}_n = (i_1, \dots, i_{n-1}, j_n), \mathbf{S}^n = \mathbf{s}_n \rbrace \\
+            &= p(s_n \vert j_n) \max_i P_{i, j_n} V_{n-1}(i) \\
+            &= p(s_n \vert j_n) P_{i_{n-1}(j_n), j_n} V_{n-1} (i_{n-1}(j_n))
+        \end{aligned}
+    \end{equation*}
+
+    Vì vậy, $i_{n-1}(j_n)$ là trạng thái bên cạnh trạng thái cuối cùng của dãy trạng thái cực đại.
+    Tiếp tục với cách này, trạng thái thứ hai bênh cạnh trạng thái thứ nhất bên cạnh trạng thái cuối cùng của dãy trạng thái cực đại là $i_{n-2}(i_{n-1}(j_n))$ và cứ tiếp tục như vậy.
+
+    Cách tiếp cận trên để tìm dãy trạng thái có khả năng xảy ra nhất khi cho chuỗi trạng thái là \textit{thuật toán Viterbi}.
+
+    \newpage
+    \printbibliography[title={TÀI LIỆU THAM KHẢO}]
 \end{document}
