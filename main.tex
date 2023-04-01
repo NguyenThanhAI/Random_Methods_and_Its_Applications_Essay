@@ -1607,7 +1607,7 @@
     \end{equation*}
 
     Vẻ đẹp của việc sử dụng đồng nhất thức ở phía trên để xác định $P \lbrace \mathbf{S}^n = \mathbf{s}_n \rbrace$ là ta có thể đồng thời tính toán dãy các hàm thuận bắt đầu với $F_1$ cũng như dãy các hàm ngược, bắt đầu tại $B_{n-1}$.
-    Việc tính toán song song có thể dừng khi ta đã tính cả $F_k$ và $B_k$ với một $k$ nào đó.
+    Việc tính toán song song dừng khi ta đã tính cả $F_k$ và $B_k$ với một $k$ nào đó.
 
     \section{Dự đoán trạng thái}
 
@@ -1627,7 +1627,7 @@
     Ta được cung cấp $\mathbf{S}^n = \mathbf{s}_n$, bộ dự đoán tối ưu của $X_k$ là giá trị của $j$ làm cực đại hóa $F_k(j)B_k(j)$.
 
     Một biến thể khác của bài toán dự đoán phát sinh khi chúng ta xem dãy các trạng thái là một thực thể duy nhất.
-    Trong tình huống này, mục tiêu của ta là chọn dãy các trạng thái mà xác suất có điều kiện khi cho trước chuỗ tín hiệu là cực đại.
+    Trong tình huống này, mục tiêu của ta là chọn dãy các trạng thái mà xác suất có điều kiện khi cho trước chuỗi tín hiệu là cực đại.
     Ví dụ, trong xử lý tín hiệu, khi $X_1, \dots, X_n$ có thể là thông điệp thực sự được gửi đi, $S_1, \dots, S_n$ là những gì ta nhận được và mục tiêu sẽ là dự đoán toàn bộ thông điệp nhận được.
 
     Ta đặt $\mathbf{X}_k = (X_1, \dots, X_k)$ là vector của $k$ trạng thái đầu, bài toán được quan tâm là tìm chuỗi các trạng thái $i_1, \dots, i_n$ làm cực đại hóa $P \lbrace \mathbf{X}_n = (i_1, \dots, i_n) \vert \mathbf{S}^n = \mathbf{s}_n \rbrace$.
@@ -1675,8 +1675,7 @@
 
     \begin{equation*}
         \begin{aligned}
-            \max_{i_1, \dots, i_n} P \lbrace \mathbf{X}_n &= (i_1, \dots, i_n), \mathbf{S}^n = \mathbf{s}_n \rbrace \\
-            &= V_n(j) \\
+            \max_{i_1, \dots, i_n} P \lbrace \mathbf{X}_n = (i_1, \dots, i_n), \mathbf{S}^n = \mathbf{s}_n \rbrace &= \max_j V_n(j) \\
             &= V_n (j_n) \\
             &= \max_{i_1, \dots, i_{n-1}} P \lbrace \mathbf{X}_n = (i_1, \dots, i_{n-1}, j_n), \mathbf{S}^n = \mathbf{s}_n \rbrace \\
             &= p(s_n \vert j_n) \max_i P_{i, j_n} V_{n-1}(i) \\
@@ -1689,6 +1688,157 @@
 
     Cách tiếp cận trên để tìm dãy trạng thái có khả năng xảy ra nhất khi cho chuỗi trạng thái là \textit{thuật toán Viterbi}.
 
+    \section{Ứng dụng của xích Markov ẩn}
+
+    Xích Markov ẩn có rất nhiều ứng dụng trong các bài toán về \textit{học máy}.
+    Một trong số đó là các bài toán về \textit{xử lý ngôn ngữ tự nhiên}.
+    Từ mục trên, ta có mã giả của thuật toán Viterbi
+
+    \begin{algorithm}
+        \DontPrintSemicolon
+        \KwIn{Tập các trạng thái $\mathscr{E}$, tập các tín hiệu $\mathscr{S}$, dãy tín hiệu quan sát được $\mathbf{S}^n=(s_1, s_2, \dots, s_n)$, ma trận chuyển trạng thái $\mathbb{P}=(P_{ij})_{i,j \in \mathscr{E}}$, ma trận xác suất bức xạ $\mathbb{G}=(G_{sj})_{s \in \mathscr{S}, j \in \mathscr{E}}=(p(s \vert j))_{s \in \mathscr{S}, j \in \mathscr{E}}$, phân bố ban đầu $p_i = P(X_1 = i), i \in \mathscr{E}$}
+
+        \ForEach{$j \in \mathscr{E}$}{
+            $V_1(j) \gets P \lbrace X_1 = j, S_1 = s_1 \rbrace = p_j p(s_1 \vert j)$\;
+        }
+
+        \ForEach{$k \gets 1$ \KwSty{to} $n$}{
+            \ForEach{$j \in \mathscr{E}$}{
+                $V_k (j) \gets p(s_k \vert j) \max_i P_{ij} V_{k-1}(i)$\;
+            }
+        }
+
+        $j_n \gets \underset{j}{\mathrm{argmax}} \thickspace V_n(j)$ \tcp*{Tìm trạng thái tại bước cuối cùng}
+
+        \ForEach{$k \gets n-1$ \KwTo{to} 1}{
+            \tcp*[l]{Tính ngược trở lại các trạng thái tại các bước phía trước đến bước đầu tiên}
+            $j_{k} \gets \underset{j}{\mathrm{argmax}} \thickspace p(s_{k+1} \vert j_{k+1}) P_{j, j_{k+1}}V_{k} (j)$\;
+        }
+
+        \Return{$(j_1, \dots, j_n)$}\;
+        \caption{Thuật toán Viterbi}
+        \label{alg:Viterbi-algorithm}
+    \end{algorithm}
+
+    \begin{vd}
+        Ta xét ví dụ gán nhãn loại từ trong câu.
+        Trong xử lý ngôn ngữ tự nhiên, mỗi từ trong câu có thể là một loại từ.
+        Đây là bài toán gãn nhãn loại từ (pos of tagging).
+        Trong trường hợp này, ta nhận được một câu và bài toán là tìm loại từ của từng từ trong câu.
+        Ta nhận thấy câu nhận được chính là tín hiệu nhận được $\mathbf{S}^n$ và ta cần tìm dãy trạng thái chính là dãy các loại từ tương ứng với từng từ trong câu.
+        Ta có ma trận xác suất chuyển trạng thái (các loại từ):
+
+        \begin{table}[h!]
+            \begin{center}
+                \begin{tabular}{| l | c | c | c | c | c | c | c |}
+                    \hline
+                    & NNP & MD & VB & JJ & NN & RB & DT \\
+                    \hline
+                    <s> & 0.2767 & 0.0006 & 0.0031 & 0.0453 & 0.0449 & 0.0510 & 0.2026 \\
+                    \hline
+                    NNP & 0.3777 & 0.0110 & 0.0009 & 0.0084 & 0.0584 & 0.0090 & 0.0025 \\
+                    \hline
+                    MD & 0.0008 & 0.0002 & 0.7968 & 0.0005 & 0.0008 & 0.1698 & 0.0041 \\
+                    \hline
+                    VB & 0.0322 & 0.0005 & 0.0050 & 0.0837 & 0.0615 & 0.0514 & 0.2231 \\
+                    \hline
+                    JJ & 0.0366 & 0.0004 & 0.0001 & 0.0733 & 0.4509 & 0.0036 & 0.0036 \\
+                    \hline
+                    NN & 0.0096 & 0.0176 & 0.0014 & 0.0086 & 0.1216 & 0.0177 & 0.0068 \\
+                    \hline
+                    RB & 0.0068 & 0.0102 & 0.1011 & 0.1012 & 0.0120 & 0.0728 & 0.0479 \\
+                    \hline
+                    DT & 0.1147 & 0.0021 & 0.0002 & 0.2157 & 0.4744 & 0.0102 & 0.0017 \\
+                    \hline
+                \end{tabular}
+            \end{center}
+            \caption{Ma trận xác suất chuyển trạng thái, hàng đầu tiên là phân bố ban đầu của các trạng thái. Ma trận trên được tính từ kho văn bản WSJ}
+        \end{table}
+
+        Ta để ý rằng tổng các xác suất của phân bố trạng thái ban đầu không bằng 1.
+        Lý do là vì có rất nhiều các loại từ khác, nhưng trong trường hợp này ta chỉ xét 7 loại từ phổ biến.
+
+        Giả sử ta nhận được câu "Janet will back the bill". Ta có ma trận xác suất bức xạ:
+
+        \begin{table}[h!]
+            \begin{center}
+                \begin{tabular}{ | l | c | c | c | c | c |}
+                    \hline
+                    & Janet & will & back & the & bill \\
+                    \hline
+                    NNP & 0.000032 & 0 & 0 & 0.000048 & 0 \\
+                    \hline
+                    MD & 0 & 0.308431 & 0 & 0 & 0 \\
+                    \hline
+                    VB & 0 & 0.000028 & 0.000672 & 0 & 0.000028 \\
+                    \hline
+                    JJ & 0 & 0 & 0.000340 & 0 & 0 \\
+                    \hline
+                    NN & 0 & 0.000200 & 0.000223 & 0 & 0.002337 \\
+                    \hline
+                    RB & 0 & 0 & 0.010446 & 0 & 0 \\
+                    \hline
+                    DT & 0 & 0 & 0 & 0.506099 & 0 \\
+                    \hline
+                \end{tabular}
+            \end{center}
+            \caption{Ma trận xác suất bức xạ. Ma trận trên được tính từ kho văn bản WSJ.}
+        \end{table}
+
+        Hãy gán nhãn loại từ cho câu "Janet will back the bill"?
+    \end{vd}
+
+    \begin{loigiai}
+        Ta sử dụng thuật toán \ref{alg:Viterbi-algorithm} để tính $V_k(j), k=1,\dots,5$:
+
+        \begin{figure}[h!]
+            \centering
+            \includegraphics[scale=0.8]{2.png}
+            \caption{Ta tính $V_k(j), k=1,\dots,5$}
+        \end{figure}
+
+        $V_k(j), j=1, \dots, 5$ có 5 cột.
+        Cột đầu tiên (cho từ "Janet") bằng giá trị phân bố trạng thái ban đầu và giá trị xác suất bức xạ từ các trạng thái, cột đầu tiên của $V_k(j), j=1, \dots, 5$ có các phần tử đều là 0 ngoại trừ phần tử tương ứng với nhãn NNP do "Janet" bắt đầu ở câu chỉ có thể là đại từ.
+        Các cột tiếp theo ta tính các giá trị $V_k(j), j=1, \dots, 5$ sử dụng công thức \ref{eq:4.37}.
+        Ta tính được giá nhị của phần tử lớn nhất ở cột cuối cùng là $2.772 \times 10^{-8}$.
+        Ta có hình ảnh truy vết các giá trị $j_k, k=1, \dots, 5$ của thuật toán Viterbi là:
+
+        \begin{figure}[h!]
+            \centering
+            \includegraphics[scale=0.6]{3.png}
+            \caption{Quỹ đạo trạng thái với xác suất lớn nhất khi sử dụng thuật toán Viterbi cho gán nhãn loại từ câu "Janet will back the bill".}
+        \end{figure}
+
+        Như vậy ta có gán nhãn loại từ cho câu "Janet will back the bill" là NNP MD VB DT NN.
+
+    \end{loigiai}
+
+    Xích Markov ẩn là một mô hình rất mạnh cho các bài toán gán nhãn theo dãy tín hiệu.
+    Ngoài ra một mô hình khác rất hay được sử dụng là \textit{trường điều kiện ngẫu nhiên} (\textit{Conditional Random Field}).
+    Nhưng khác với xích Markov ẩn sẽ đi tìm một dãy trạng thái tại bước $k$ sao cho:
+
+    \begin{equation*}
+        i_1, \dots, i_{k-1} = \underset{i_1, \dots, i_{k-1}}{\mathrm{argmax}} P \lbrace \mathbf{X}_{k-1} = (i_1, \dots, i_{k-1}), X_k = j, \mathbf{S}^k = \mathbf{s}_k \rbrace
+    \end{equation*}
+
+    Ngược lại, CRF không tính xác suất của từng dãy trạng thái tại từng bước mà CRF sẽ tính hàm log trên một tập các đặc trưng và tổng hợp các đặc trưng này thành xác suất của các dãy trạng thái có thể xảy ra.
+    Hay nói cách khác, CRF học trực tiếp:
+
+    \begin{equation*}
+        i_1, \dots, i_{k-1} = \underset{i_1, \dots, i_{k-1}}{\mathrm{argmax}} P \lbrace \mathbf{X}_{k-1} = (i_1, \dots, i_{k-1}), X_k = j, \mathbf{S}^k = \mathbf{s}_k \rbrace
+    \end{equation*}
+
+    Ta đặt $\mathbf{S}$ chính là dãy tín hiệu quan sát được và $\mathbf{X}$ là dãy trạng thái cần tìm.
+    Mô hình CRF là một mô hình logarith tuyến tính gán xác suất vào một dãy trạng thái đầu ra $\mathbf{X}$ trong tập tất cả các trạng thái có khả năng xảy ra là $\mathscr{X}$ khi cho một dãy tín hiệu đầu vào là $\mathbf{S}$.
+    Ta có thể thấy CRF là một phiên bản lớn của hồi quy logistic nhiều đầu ra.
+    Trong CRF, hàm $F$ sẽ ánh xạ toàn bộ dãy tín hiệu quan sát được $\mathbf{S}$ và một dãy các trạng thái $\mathbf{X}$ thành một vector.
+    Ta giả sử ta có $K$ đặc trưng, với trọng số $w_k$ cho từng đặc trưng $F_k$:
+
+    \begin{equation*}
+        P(\mathbf{X} \vert \mathbf{S}) = \dfrac{\exp\Bigg (\displaystyle\sum_{k=1}^K w_k F_k (\mathbf{S}, \mathbf{X}) \Bigg)}{\displaystyle\sum_{\mathbf{X} \in \mathscr{X}}\exp\Bigg (\sum_{k=1}^K w_k F_k (\mathbf{S}, \mathbf{X}) \Bigg)}
+    \end{equation*}
+
+    với $w_k$ là các trọng số sẽ được học từ dữ liệu.
     \newpage
     \printbibliography[title={TÀI LIỆU THAM KHẢO}]
 \end{document}
