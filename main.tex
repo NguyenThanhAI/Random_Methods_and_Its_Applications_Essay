@@ -210,7 +210,7 @@
     Xích Markov ẩn là một loại xích Markov mô hình hóa dãy các quan sát, với mỗi quan sát được tạo ra từ một trạng thái ẩn.
     Xích Markov ẩn được sử dụng rất nhiều trong xử lý tiếng nói, xử lý ngôn ngữ tự nhiên hay trong các ứng dụng liên quan đến dữ liệu dạng chuỗi.
 
-    Trong tiểu luận này, ta sẽ tìm hiểu lý thuyết của xích Markov, lý thuyết phân nhánh, xích Markov Monte Carlo và xích Markov ẩn và các ứng dụng thông qua các ví dụ.
+    Trong tiểu luận này, ta sẽ tìm hiểu lý thuyết của xích Markov, lý thuyết phân nhánh, xích Markov Monte Carlo, quá trình quyết định Markov và xích Markov ẩn và các ứng dụng thông qua các ví dụ.
     Ta sẽ bắt đầu nói về số bước chuyển tiếp trung bình giữa các trạng thái, sau đó chuyển sang lý thuyết về lý thuyết phân nhánh và cách sử dụng để mô hình hóa sự biến đổi của quần thể.
     Ta cũng sẽ đề cập một số thuật toán quan trọng của xích Markov Monte Carlo như là thuật toán Metropolis-Hastings và bộ lấy mẫu Gibbs.
 
@@ -1868,6 +1868,30 @@
     \end{equation*}
 
     với $w_k$ là các trọng số sẽ được học từ dữ liệu.
+
+    \newpage
+    \begin{center}
+        \section*{KẾT LUẬN}
+        \addcontentsline{toc}{section}{{\bf KẾT LUẬN}\rm}
+    \end{center}
+
+    Xích Markov và các mô hình liên quan là các công cũ rất mạnh để mô hình hóa các hệ thống phức tạp và dữ liệu dạng chuỗi.
+    Xích Markov cung cấp một cách đơn giản và đẹp về mặt toán học để miêu tả các hệ thống biến đổi theo thời gian, trong khi lý thuyết phân nhánh rất hữu ích trong việc nghiên cứu sự vận động của một quần thể theo thời gian.
+    Các thuật toán xích Markov Monte Carlo cho phép ta mô phỏng các các hệ thống và tạo ra các mẫu từ các phân bố xác suất.
+    Quá trình quyết định Markov chung cấp một cách để giải các bài toán ra quyết định.
+    Xích Markov ẩn giúp giải quyết các bài toán có dữ liệu dạng chuỗi trong đó mỗi quan sát được tạo ra từ trạng thái ẩn.
+
+    Các mô hình trên có rất nhiều ứng dụng trong nhiều ứng dụng như vật lý, kinh tế, thống kê, học máy, xử lý ngôn ngữ tự nhiên và xử lý âm thanh.
+    Chúng cho phép các nhà nghiên cứu hiểu rõ hơn về các hệ thống phức tạp và đưa ra dự đoán về kết quả trong tương lai.
+
+    Tuy nhiên, cũng có những thách thức và hạn chế liên quan đến các mô hình này.
+    Xích Markov và xích Markov ẩn dựa trên giả định rằng trạng thái hoặc quan sát trong tương lai chỉ phụ thuộc vào trạng thái hoặc quan sát ở thời điểm hiện tại, điều này không phải lúc nào cũng đúng trong các tình huống trong thế giới thực.
+    Các thuật toán xích Markov Monte Carlo có thể tốn kém về mặt tính toán và yêu cầu chỉnh định cẩn thận trong khi quá trình quyết định Markov bị chịu nhưng hạn chế do \textit{curse of dimensionality}.
+
+    Bất chấp những thách thức trên, việc sử dụng xích Markov, lý thuyết phân nhánh, xích Markov Monte Carlo, quá trình quyết định Markov và xích Markov ẩn tiếp tục phát trên và nhận được nhiều sự quan tâm từ các nhà nghiên cứu khi các thuật toán và các kỹ thuật mới được phát triển để khắc phục những hạn chế này.
+    Do đó, ta có thể kỳ vọng sẽ thấy các mô hình linh hoạt và mạnh hơn xuất hiện trong tương lai, đẫn đến những hiểu biết và khám phá mới trong nhiều lĩnh vực.
+
+
     \newpage
     \printbibliography[title={TÀI LIỆU THAM KHẢO}]
 \end{document}
